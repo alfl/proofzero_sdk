@@ -27,3 +27,7 @@ Fill me in please! Don't forget code examples:
     3
 
 
+
+```python
+# from nbdev.export import notebook2script; notebook2script()
+```
