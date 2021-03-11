@@ -3,7 +3,10 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"say_hello": "core.ipynb",
-         "HelloSayer": "core.ipynb"}
+         "HelloSayer": "core.ipynb",
+         "load": "core.ipynb",
+         "tokenize": "core.ipynb",
+         "index": "core.ipynb"}
 
 modules = ["core.py"]
 
