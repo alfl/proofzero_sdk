@@ -44,7 +44,7 @@ nb_path: "util.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Loading-data">Loading data<a class="anchor-link" href="#Loading-data"> </a></h2>
+<h2 id="Hash-functions">Hash functions<a class="anchor-link" href="#Hash-functions"> </a></h2>
 </div>
 </div>
 </div>
@@ -59,9 +59,9 @@ nb_path: "util.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="sha2" class="doc_header"><code>sha2</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L11" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>sha2</code>(<strong><code>filename</code></strong>:<code>str</code>)</p>
+<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L10" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>plainvalue</code></strong>:<code>Any</code>)</p>
 </blockquote>
-<p>Convenience function for loading files using <code>pandas</code>. Full version supports XLSX, etc.</p>
+<p>A no-op hash function (ie, passthrough, no encryption applied). Useful for testing.</p>
 
 </div>
 
@@ -80,6 +80,44 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="sha2" class="doc_header"><code>sha2</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>sha2</code>(<strong><code>plainvalue</code></strong>:<code>Any</code>)</p>
+</blockquote>
+<p>A cross-platform implementation wrapper around SHA2. Generates consistent hashes across different hardware and interpreter platforms.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Parsing-functions">Parsing functions<a class="anchor-link" href="#Parsing-functions"> </a></h2>
+</div>
+</div>
+</div>
 </div>
  
 

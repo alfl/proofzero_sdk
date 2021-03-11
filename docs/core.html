@@ -31,13 +31,68 @@ nb_path: "core.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Why">Why<a class="anchor-link" href="#Why"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Generating matches across datasets is difficult. Different data are collected about the same entities (one person enters different phone numbers, or addresses). Data are in different formats -- sometimes just a postal code is stored, sometimes a geo-region, sometimes a street address.</p>
+<p>However all of these differences in physical data representation refer to the same logical entities.</p>
+<p>The Proof Zero SDK generates pseudokeys that match entities across data sets containing different physical data representations. These pseudokeys establish a primary/foreign key relationship between incomplete, incorrect, and unclean data sets. A measure of match strength is also created.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Workflow">Workflow<a class="anchor-link" href="#Workflow"> </a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to join two datasets using pseudokeys we first <a href="/proofzero_sdk/core.html#load"><code>load</code></a> our data, and then:</p>
+<ol>
+<li><a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a> it -- decompose our data into standard formats,</li>
+<li><a href="/proofzero_sdk/core.html#index"><code>index</code></a> it -- recompose our tokens into cryptographic indexes,</li>
+<li><a href="/proofzero_sdk/core.html#match"><code>match</code></a> it -- compare indexed data sets to generate matches and measure match quality.</li>
+</ol>
+<p>This is the TIM: <a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a>, <a href="/proofzero_sdk/core.html#index"><code>index</code></a>, <a href="/proofzero_sdk/core.html#match"><code>match</code></a> workflow.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Security-and-data-privacy">Security and data privacy<a class="anchor-link" href="#Security-and-data-privacy"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All SDK features run locally, so data remain within control of the user. match optionally allows use of Proof Zero's compute cluster and matching models to generate matches more quickly and with higher accuracy.</p>
+<p>By using IndexFrame objects data remain in the control of the local system, even when using Proof Zero's compute cluster.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Exported-types">Exported types<a class="anchor-link" href="#Exported-types"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We provide several lightweight types that track progress through the TIM workflow:</p>
+<ul>
+<li><a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a> is a <code>pandas</code> DataFrame that has been tokenized.</li>
+<li><a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a> is a <a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a> that has been hashed/indexed.</li>
+<li><a href="/proofzero_sdk/core.html#MatchFrame"><code>MatchFrame</code></a> is a match between two <a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>s.</li>
+</ul>
+<p>These types help systems and analysts keep track of where a given dataset is in the tokenize, index, match (TIM) workflow.</p>
+
 </div>
 </div>
 </div>
@@ -119,6 +174,12 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Indexing-data">Indexing data<a class="anchor-link" href="#Indexing-data"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -152,6 +213,12 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Matching-data">Matching data<a class="anchor-link" href="#Matching-data"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">

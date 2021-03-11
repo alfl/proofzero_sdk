@@ -66,7 +66,7 @@ data[:1]
       <td>31417 Gina Lodge, Bradleytown, MB P7G 4N5</td>
       <td>1 (598) 742-6794</td>
       <td>203 268 552</td>
-      <td>1943-04-15</td>
+      <td>1943/04/15</td>
     </tr>
   </tbody>
 </table>

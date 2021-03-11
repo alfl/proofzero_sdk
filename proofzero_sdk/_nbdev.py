@@ -12,7 +12,8 @@ index = {"say_hello": "core.ipynb",
          "match": "core.ipynb",
          "MatchFrame": "core.ipynb",
          "sha2": "util.ipynb",
-         "Hash": "util.ipynb"}
+         "Hash": "util.ipynb",
+         "noop": "util.ipynb"}
 
 modules = ["core.py",
            "util.py"]
