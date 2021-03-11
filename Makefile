@@ -11,7 +11,7 @@ proofzero_sdk: $(SRC)
 sync:
 	nbdev_update_lib
 
-docs_serve: docs
+docs_serve:
 	cd docs && bundle exec jekyll serve
 
 docs: $(SRC)

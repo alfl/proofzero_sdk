@@ -6,9 +6,16 @@ index = {"say_hello": "core.ipynb",
          "HelloSayer": "core.ipynb",
          "load": "core.ipynb",
          "tokenize": "core.ipynb",
-         "index": "core.ipynb"}
+         "index": "core.ipynb",
+         "TokenFrame": "core.ipynb",
+         "IndexFrame": "core.ipynb",
+         "match": "core.ipynb",
+         "MatchFrame": "core.ipynb",
+         "sha2": "util.ipynb",
+         "Hash": "util.ipynb"}
 
-modules = ["core.py"]
+modules = ["core.py",
+           "util.py"]
 
 doc_url = "https://alfl.github.io/proofzero_sdk/"
 

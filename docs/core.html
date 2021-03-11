@@ -1,13 +1,13 @@
 ---
 
-title: ProofZero SDK
+title: ProofZero Core SDK
 
 
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "A feature parser-hasher client to the Proof Zero matching engine."
-description: "A feature parser-hasher client to the Proof Zero matching engine."
+
+
 nb_path: "core.ipynb"
 ---
 <!--
@@ -29,6 +29,24 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Workflow">Workflow<a class="anchor-link" href="#Workflow"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exported-types">Exported types<a class="anchor-link" href="#Exported-types"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Loading-data">Loading data<a class="anchor-link" href="#Loading-data"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -40,7 +58,7 @@ nb_path: "core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="load" class="doc_header"><code>load</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L7" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>load</code>(<strong><code>filename</code></strong>)</p>
+<h4 id="load" class="doc_header"><code>load</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L7" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>load</code>(<strong><code>filename</code></strong>:<code>str</code>)</p>
 </blockquote>
 <p>Convenience function for loading files using <code>pandas</code>. Full version supports XLSX, etc.</p>
 
@@ -61,6 +79,12 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tokenizing-data">Tokenizing data<a class="anchor-link" href="#Tokenizing-data"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -72,7 +96,7 @@ nb_path: "core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="tokenize" class="doc_header"><code>tokenize</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L14" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>tokenize</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>schema</code></strong>:<code>dict</code>, <strong><code>suffix_delim</code></strong>:<code>str</code>=<em><code>''</code></em>)</p>
+<h4 id="tokenize" class="doc_header"><code>tokenize</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L19" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>tokenize</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>schema</code></strong>:<code>dict</code>, <strong><code>suffix_delim</code></strong>:<code>str</code>=<em><code>''</code></em>)</p>
 </blockquote>
 <p>Takes a <code>pandas</code> DataFrame and a schema. The schema is a <code>dict</code> that maps columns in the DataFrame to a list of parsers that are executed in order.</p>
 <p>Denormalizes the passed DataFrame by applying the parsers in the schema.</p>
@@ -106,9 +130,42 @@ nb_path: "core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="index" class="doc_header"><code>index</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L60" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>index</code>(<strong><code>df</code></strong>:<code>DataFrame</code>, <strong><code>schema</code></strong>:<code>dict</code>, <strong><code>hasher</code></strong>:<code>Callable</code>=<em><code>None</code></em>)</p>
+<h4 id="index" class="doc_header"><code>index</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L70" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>index</code>(<strong><code>df</code></strong>:<a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a>, <strong><code>schema</code></strong>:<code>dict</code>, <strong><code>hasher</code></strong>:<code>Callable</code>=<em><code>sha2</code></em>)</p>
 </blockquote>
 <p>Tokenizes the passed DataFrame using <a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a>, then applies a hash function to the tokenized features.</p>
+<p>The default hash function is <a href="/proofzero_sdk/util.html#sha2"><code>sha2</code></a>, from the Proof Zero utility SDK.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="match" class="doc_header"><code>match</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>match</code>(<strong><code>index_0</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>index_1</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>network</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+</blockquote>
+<p>Discover matches between the two passed DataFrames. If <code>network</code> is set to <code>True</code> the indexed data are matched using Proof Zero's cluster.</p>
 
 </div>
 
