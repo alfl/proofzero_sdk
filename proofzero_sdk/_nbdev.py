@@ -13,7 +13,13 @@ index = {"say_hello": "core.ipynb",
          "MatchFrame": "core.ipynb",
          "sha2": "util.ipynb",
          "Hash": "util.ipynb",
-         "noop": "util.ipynb"}
+         "noop": "util.ipynb",
+         "parseString": "util.ipynb",
+         "parseName": "util.ipynb",
+         "parseAddress": "util.ipynb",
+         "parsePhone": "util.ipynb",
+         "parseSIN": "util.ipynb",
+         "parseDate": "util.ipynb"}
 
 modules = ["core.py",
            "util.py"]

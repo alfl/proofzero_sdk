@@ -1,1 +1,5 @@
 pandas==1.2.3
+nameparser==1.0.6
+phonenumbers==8.12.19
+python-stdnum==1.16
+dateparser==1.0.0

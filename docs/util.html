@@ -59,7 +59,7 @@ nb_path: "util.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L10" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>plainvalue</code></strong>:<code>Any</code>)</p>
+<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L10" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>value</code></strong>:<code>Any</code>)</p>
 </blockquote>
 <p>A no-op hash function (ie, passthrough, no encryption applied). Useful for testing.</p>
 
@@ -83,6 +83,24 @@ nb_path: "util.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_noop</span> <span class="o">=</span> <span class="n">noop</span><span class="p">(</span><span class="s1">&#39;no transform&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_noop</span> <span class="o">==</span> <span class="s1">&#39;no transform&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
 <div class="output">
@@ -91,7 +109,7 @@ nb_path: "util.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="sha2" class="doc_header"><code>sha2</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>sha2</code>(<strong><code>plainvalue</code></strong>:<code>Any</code>)</p>
+<h4 id="sha2" class="doc_header"><code>sha2</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L20" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>sha2</code>(<strong><code>value</code></strong>:<code>Any</code>, <strong><code>encoding</code></strong>:<code>str</code>=<em><code>'utf-8'</code></em>)</p>
 </blockquote>
 <p>A cross-platform implementation wrapper around SHA2. Generates consistent hashes across different hardware and interpreter platforms.</p>
 
@@ -112,12 +130,366 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cryptotext</span> <span class="o">=</span> <span class="n">sha2</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">cryptotext</span> <span class="o">==</span> <span class="s1">&#39;9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Parsing-functions">Parsing functions<a class="anchor-link" href="#Parsing-functions"> </a></h2>
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="parseString" class="doc_header"><code>parseString</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L60" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parseString</code>(<strong><code>value</code></strong>:<code>str</code>, <strong><code>delim</code></strong>:<code>str</code>=<em><code>' '</code></em>)</p>
+</blockquote>
+<p>Tokenize the passed string with an arbitrary delimiter, <code>delim</code>.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_string</span> <span class="o">=</span> <span class="n">parseString</span><span class="p">(</span><span class="s1">&#39;This-is-a-test&#39;</span><span class="p">,</span> <span class="n">delim</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_string</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;This&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_string</span> <span class="o">=</span> <span class="n">parseString</span><span class="p">(</span><span class="s1">&#39;This is a test&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_string</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;This&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_string</span> <span class="o">=</span> <span class="n">parseString</span><span class="p">(</span><span class="s1">&#39;abc123&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_string</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;abc123&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="parseName" class="doc_header"><code>parseName</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parseName</code>(<strong><code>value</code></strong>:<code>str</code>)</p>
+</blockquote>
+<p>Tokenize the passed human name field in an opinionated way.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_name</span> <span class="o">=</span> <span class="n">parseName</span><span class="p">(</span><span class="s1">&#39;Mr. Alex &quot;Al&quot; R. Flanagan I&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_name</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Mr.&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;Alex&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;middle&#39;</span><span class="p">,</span> <span class="s1">&#39;R.&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;Flanagan&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;suffix&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nickname&#39;</span><span class="p">,</span> <span class="s1">&#39;Al&#39;</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="parseAddress" class="doc_header"><code>parseAddress</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L77" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parseAddress</code>(<strong><code>value</code></strong>:<code>str</code>, <strong><code>delim</code></strong>:<code>str</code>=<em><code>' '</code></em>)</p>
+</blockquote>
+<p>Tokenize the passed address field in an opinionated way.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_address</span> <span class="o">=</span> <span class="n">parseAddress</span><span class="p">(</span><span class="s1">&#39;92 Yonge St., Toronto Ontario, M5J 0B1&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_address</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;92&#39;</span><span class="p">,</span> <span class="s1">&#39;Yonge&#39;</span><span class="p">,</span> <span class="s1">&#39;St.,&#39;</span><span class="p">,</span> <span class="s1">&#39;Toronto&#39;</span><span class="p">,</span> <span class="s1">&#39;Ontario,&#39;</span><span class="p">,</span> <span class="s1">&#39;M5J&#39;</span><span class="p">,</span> <span class="s1">&#39;0B1&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="parsePhone" class="doc_header"><code>parsePhone</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L86" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parsePhone</code>(<strong><code>value</code></strong>:<code>str</code>)</p>
+</blockquote>
+<p>Tokenize the passed phone number field in an opinionated way.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_phone</span> <span class="o">=</span> <span class="n">parsePhone</span><span class="p">(</span><span class="s1">&#39;647-927-7392&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">test_phone</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;tel:+1-647-927-7392&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;647&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;927&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;7392&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;6479277392&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;647-927-7392&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;20&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="parseSIN" class="doc_header"><code>parseSIN</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parseSIN</code>(<strong><code>value</code></strong>:<code>str</code>)</p>
+</blockquote>
+<p>Tokenize the passed SIN field in an opinionated way.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_social</span> <span class="o">=</span> <span class="n">parseSIN</span><span class="p">(</span><span class="s1">&#39;046 454 286&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_social</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;046-454-286&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;046&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;454&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;286&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="parseDate" class="doc_header"><code>parseDate</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/util.py#L139" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parseDate</code>(<strong><code>value</code></strong>:<code>str</code>)</p>
+</blockquote>
+<p>Tokenize the passed date field in an opinionated way.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_date</span> <span class="o">=</span> <span class="n">parseDate</span><span class="p">(</span><span class="s1">&#39;1999-07-01&#39;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_date</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;1999-07-01&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1999&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 </div>
  
 
