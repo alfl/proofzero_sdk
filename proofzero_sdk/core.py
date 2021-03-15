@@ -39,13 +39,13 @@ def tokenize(
             # Allow parsers to return a named component and use that name to index
             # our new columns, else use the index number as a string.
             map_delim.join(
-                [map_row.index[i], v[0] if isinstance(v, tuple) else str(j)]
+                [map_row.index[i], str(v[1]) if isinstance(v, tuple) else str(j)]
             )
             for i, u in enumerate(map_row.index)
             for j, v in enumerate(results[i])
         ]
         series = pd.Series(
-            data=list(itertools.chain(*results)), index=indicies
+            data=[v[0] if isinstance(v, tuple) else v for v in itertools.chain(*results)], index=indicies
         )
         return series
 
@@ -77,7 +77,8 @@ def index(
 
     The default hash function is `sha2`, from the Proof Zero utility SDK.
     """
-    return tokenize(df, schema, suffix_delim).applymap(hasher)
+    #return tokenize(df, schema, suffix_delim).applymap(hasher)
+    return df.applymap(hasher)
 
 # Cell
 
@@ -85,9 +86,17 @@ def index(
 MatchFrame = NewType('MatchFrame', IndexFrame)
 
 def match(
-    index_0: IndexFrame, index_1: IndexFrame, network: bool = False
+    index_0: IndexFrame, index_1: IndexFrame, api_key: str = ''
 ) -> pd.DataFrame:
     """
-    Discover matches between the two passed DataFrames. If `network` is set to `True` the indexed data are matched using Proof Zero's cluster.
+    Discover matches between the two passed DataFrames. If `api_key` is set the indexed data can be matched using Proof Zero's cluster.
+
+    This function is compute-intense. Contact us for cloud scaling help.
     """
-    return pd.DataFrame()
+    common_columns = list(set(index_0.columns) & set(index_1.columns))
+    if (len(common_columns) < 1):
+        raise RuntimeError('No schema overlap -- some columns must match (parsing functions in schema must emit tags that match across both frames).')
+
+    # Crosstab values, then flatten, and build merge query, per row.
+
+    return df

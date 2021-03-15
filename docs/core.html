@@ -40,6 +40,7 @@ nb_path: "core.ipynb"
 <p>Generating matches across datasets is difficult. The same entities are described by different data (for example, one person using different phone numbers, or addresses). Data are often in different formats -- sometimes just a postal code is stored, sometimes a geo-region, sometimes a street address.</p>
 <p>However all of these differences in physical data representation refer to the same logical entities.</p>
 <p>The Proof Zero SDK generates pseudokeys that match entities across data sets containing different physical data representations. These pseudokeys enable a match between incomplete, incorrect, and unclean data sets. The percent strength of these pseudokey-based matches is also indicated.</p>
+<p>The SDK also acts as a general-purpose feature hashing engine.</p>
 
 </div>
 </div>
@@ -55,7 +56,7 @@ nb_path: "core.ipynb"
 <p>In order to join two datasets using pseudokeys we first <a href="/proofzero_sdk/core.html#load"><code>load</code></a> our data, and then:</p>
 <ol>
 <li><a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a> it -- decompose our data into standard formats,</li>
-<li><a href="/proofzero_sdk/core.html#index"><code>index</code></a> it -- recompose our tokens into cryptographic indexes,</li>
+<li><a href="/proofzero_sdk/core.html#index"><code>index</code></a> it -- recompose our tokens into cryptographic indexes (privacy-aware feature hashes),</li>
 <li><a href="/proofzero_sdk/core.html#match"><code>match</code></a> it -- compare indexed data sets to generate matches and measure match quality.</li>
 </ol>
 <p>This is the "TIM" workflow: <a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a>, <a href="/proofzero_sdk/core.html#index"><code>index</code></a>, <a href="/proofzero_sdk/core.html#match"><code>match</code></a>.</p>
@@ -308,15 +309,15 @@ nb_path: "core.ipynb"
       <th>name_middle</th>
       <th>...</th>
       <th>phone_10</th>
-      <th>phone_None</th>
-      <th>SIN_203-268-552</th>
-      <th>SIN_203</th>
-      <th>SIN_268</th>
-      <th>SIN_552</th>
-      <th>DOB_1943-04-15</th>
-      <th>DOB_1943</th>
-      <th>DOB_4</th>
-      <th>DOB_15</th>
+      <th>phone_11</th>
+      <th>SIN_0</th>
+      <th>SIN_1</th>
+      <th>SIN_2</th>
+      <th>SIN_3</th>
+      <th>DOB_0</th>
+      <th>DOB_1</th>
+      <th>DOB_2</th>
+      <th>DOB_3</th>
     </tr>
   </thead>
   <tbody>
@@ -329,20 +330,20 @@ nb_path: "core.ipynb"
       <td>203 268 552</td>
       <td>1943/04/15</td>
       <td>PXCG66212484637575</td>
-      <td>(title, )</td>
-      <td>(first, Kristin)</td>
-      <td>(middle, )</td>
+      <td></td>
+      <td>Kristin</td>
+      <td></td>
       <td>...</td>
-      <td>(10, 10)</td>
-      <td>(None, 11)</td>
-      <td>(203-268-552, 0)</td>
-      <td>(203, 1)</td>
-      <td>(268, 2)</td>
-      <td>(552, 3)</td>
-      <td>(1943-04-15, 0)</td>
-      <td>(1943, 1)</td>
-      <td>(4, 2)</td>
-      <td>(15, 3)</td>
+      <td>10</td>
+      <td>None</td>
+      <td>203-268-552</td>
+      <td>203</td>
+      <td>268</td>
+      <td>552</td>
+      <td>1943-04-15</td>
+      <td>1943</td>
+      <td>4</td>
+      <td>15</td>
     </tr>
   </tbody>
 </table>
@@ -404,7 +405,7 @@ nb_path: "core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_1</span> <span class="o">=</span> <span class="n">index</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">data_1</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_1</span> <span class="o">=</span> <span class="n">index</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">tokens_1</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
     <span class="s1">&#39;acct_num&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseString</span><span class="p">],</span>
     <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseName</span><span class="p">],</span>
     <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseAddress</span><span class="p">],</span>
@@ -456,41 +457,41 @@ nb_path: "core.ipynb"
       <th>name_middle</th>
       <th>...</th>
       <th>phone_10</th>
-      <th>phone_None</th>
-      <th>SIN_203-268-552</th>
-      <th>SIN_203</th>
-      <th>SIN_268</th>
-      <th>SIN_552</th>
-      <th>DOB_1943-04-15</th>
-      <th>DOB_1943</th>
-      <th>DOB_4</th>
-      <th>DOB_15</th>
+      <th>phone_11</th>
+      <th>SIN_0</th>
+      <th>SIN_1</th>
+      <th>SIN_2</th>
+      <th>SIN_3</th>
+      <th>DOB_0</th>
+      <th>DOB_1</th>
+      <th>DOB_2</th>
+      <th>DOB_3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>9a4e0b4212e6e1c3bee9d9477ada501d4af3278253b92c...</td>
-      <td>e4fb3b4959e9a84de7c2ca8979550028303df30d40a2a6...</td>
-      <td>f1786bd10278eb29886cc1dfc7d1525ca1b46f32837cb9...</td>
-      <td>5776f839fd13f8177c3e770a636d1912f5388b0df0d5de...</td>
-      <td>4dc80e9334c9dd570992acb20cc61f223d3b74b1b2e985...</td>
-      <td>cac1d345f8d91e8b2ef0daf185e59d5a999d067a526317...</td>
-      <td>9a4e0b4212e6e1c3bee9d9477ada501d4af3278253b92c...</td>
-      <td>bc1f4845d8154f8f8cfcdc9b2b5d87a338ea4a938eb33e...</td>
-      <td>127a5d72c7b76ea92ef1b812842ca65c427b294dde3401...</td>
-      <td>40fc1952b9a79fc35e8fcea702c00f764eaf2ec0fce420...</td>
+      <td>9802534054846731338401687891444750119150976961...</td>
+      <td>4418369248196592421047499630841732388346555327...</td>
+      <td>9594784023836219556184433361991357495783756657...</td>
+      <td>7344459144365265142091263159766424283511268480...</td>
+      <td>1010505653944236458406177846488691380962181960...</td>
+      <td>5141391390246777661242717464678167327763772345...</td>
+      <td>9802534054846731338401687891444750119150976961...</td>
+      <td>3877226117079751550214273725156091025388555585...</td>
+      <td>9229611837054111477081027882940374069625694253...</td>
+      <td>3877226117079751550214273725156091025388555585...</td>
       <td>...</td>
-      <td>7ae4b082a66b4fbadeb161e0d671e0ec8d40eae0dc71c8...</td>
-      <td>e92705293fc34d3a9c7bba3f04caea339edc52f7b899b2...</td>
-      <td>cf4ca7b336ad79aef924e8ecdfbd857cd40b8449f4183c...</td>
-      <td>51c6b7349d874760a41fb598de77f706d494fbf890b7d0...</td>
-      <td>80c4546bc9831ac81bb0d78fcbd93824dd5510339eae64...</td>
-      <td>ed0706dd57a13c0b65aee46fb399ae12909f9fcd23e081...</td>
-      <td>69fe02c8a53e77d0ee77b602ba1afdb3f5a0f1f96d64a8...</td>
-      <td>79026fe2dfa0c65ed203a34f024edb075a0dbce04fa7cf...</td>
-      <td>2a69ad49abd3193c629fa56c6647e5fe9718e7b0051f07...</td>
-      <td>c861c3b4dcd6234a9199867826bd041d449a4f355e0f14...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1148673251264303964479456609021610855802601825...</td>
+      <td>2948056107977080813370872483486457740221751010...</td>
+      <td>5545403145286023377289154093249644763249517306...</td>
+      <td>1018998564061470247772449997659560822438884579...</td>
+      <td>7644637171458321163635300620903733517024394144...</td>
+      <td>1020423811237369131177406386728771151256212182...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>9930297093447128312648856684579760333304390435...</td>
     </tr>
   </tbody>
 </table>
@@ -523,9 +524,10 @@ nb_path: "core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="match" class="doc_header"><code>match</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L87" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>match</code>(<strong><code>index_0</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>index_1</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>network</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+<h4 id="match" class="doc_header"><code>match</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>match</code>(<strong><code>index_0</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>index_1</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>api_key</code></strong>:<code>str</code>=<em><code>''</code></em>)</p>
 </blockquote>
-<p>Discover matches between the two passed DataFrames. If <code>network</code> is set to <code>True</code> the indexed data are matched using Proof Zero's cluster.</p>
+<p>Discover matches between the two passed DataFrames. If <code>api_key</code> is set the indexed data can be matched using Proof Zero's cluster.</p>
+<p>This function is compute-intense. Contact us for cloud scaling help.</p>
 
 </div>
 
@@ -601,7 +603,7 @@ nb_path: "core.ipynb"
       <td>31417 Gina Lodge, Bradleytown, MB P7G 4N5</td>
       <td>742 598 6794</td>
       <td>203 268 552</td>
-      <td>15811</td>
+      <td>1943/04/15</td>
     </tr>
   </tbody>
 </table>
@@ -643,109 +645,80 @@ nb_path: "core.ipynb"
 
 <div class="output_area">
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-13-45c30a989838&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span>     <span class="ansi-blue-fg">&#39;SIN&#39;</span><span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span>parseSIN<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">      7</span>     <span class="ansi-blue-fg">&#39;DOB&#39;</span><span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span>parseDate<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-fg">----&gt; 8</span><span class="ansi-red-fg"> }, suffix_delim=&#39;_&#39;)
-</span><span class="ansi-green-intense-fg ansi-bold">      9</span> tokens_2
 
-<span class="ansi-green-fg">&lt;ipython-input-5-3e9b3489a371&gt;</span> in <span class="ansi-cyan-fg">tokenize</span><span class="ansi-blue-fg">(df, schema, suffix_delim)</span>
-<span class="ansi-green-intense-fg ansi-bold">     45</span>                 axis<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     46</span>                 args<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">(</span>schema<span class="ansi-blue-fg">,</span> suffix_delim<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">---&gt; 47</span><span class="ansi-red-fg">                 </span>result_type<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;expand&#34;</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     48</span>             ),
-<span class="ansi-green-intense-fg ansi-bold">     49</span>         ],
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/frame.py</span> in <span class="ansi-cyan-fg">apply</span><span class="ansi-blue-fg">(self, func, axis, raw, result_type, args, **kwds)</span>
-<span class="ansi-green-intense-fg ansi-bold">   7766</span>             kwds<span class="ansi-blue-fg">=</span>kwds<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   7767</span>         )
-<span class="ansi-green-fg">-&gt; 7768</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> op<span class="ansi-blue-fg">.</span>get_result<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   7769</span> 
-<span class="ansi-green-intense-fg ansi-bold">   7770</span>     <span class="ansi-green-fg">def</span> applymap<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> func<span class="ansi-blue-fg">,</span> na_action<span class="ansi-blue-fg">:</span> Optional<span class="ansi-blue-fg">[</span>str<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> DataFrame<span class="ansi-blue-fg">:</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/apply.py</span> in <span class="ansi-cyan-fg">get_result</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    183</span>             <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>apply_raw<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    184</span> 
-<span class="ansi-green-fg">--&gt; 185</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>apply_standard<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    186</span> 
-<span class="ansi-green-intense-fg ansi-bold">    187</span>     <span class="ansi-green-fg">def</span> apply_empty_result<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/apply.py</span> in <span class="ansi-cyan-fg">apply_standard</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    274</span> 
-<span class="ansi-green-intense-fg ansi-bold">    275</span>     <span class="ansi-green-fg">def</span> apply_standard<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 276</span><span class="ansi-red-fg">         </span>results<span class="ansi-blue-fg">,</span> res_index <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>apply_series_generator<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    277</span> 
-<span class="ansi-green-intense-fg ansi-bold">    278</span>         <span class="ansi-red-fg"># wrap results</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/apply.py</span> in <span class="ansi-cyan-fg">apply_series_generator</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    288</span>             <span class="ansi-green-fg">for</span> i<span class="ansi-blue-fg">,</span> v <span class="ansi-green-fg">in</span> enumerate<span class="ansi-blue-fg">(</span>series_gen<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    289</span>                 <span class="ansi-red-fg"># ignore SettingWithCopy here in case the user mutates</span>
-<span class="ansi-green-fg">--&gt; 290</span><span class="ansi-red-fg">                 </span>results<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>f<span class="ansi-blue-fg">(</span>v<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    291</span>                 <span class="ansi-green-fg">if</span> isinstance<span class="ansi-blue-fg">(</span>results<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> ABCSeries<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    292</span>                     <span class="ansi-red-fg"># If we have a view on v, we need to make a copy because</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/apply.py</span> in <span class="ansi-cyan-fg">f</span><span class="ansi-blue-fg">(x)</span>
-<span class="ansi-green-intense-fg ansi-bold">    108</span> 
-<span class="ansi-green-intense-fg ansi-bold">    109</span>             <span class="ansi-green-fg">def</span> f<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 110</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">return</span> func<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwds<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    111</span> 
-<span class="ansi-green-intense-fg ansi-bold">    112</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-5-3e9b3489a371&gt;</span> in <span class="ansi-cyan-fg">map_schema</span><span class="ansi-blue-fg">(map_row, map_schema, map_delim)</span>
-<span class="ansi-green-intense-fg ansi-bold">     22</span>                 <span class="ansi-green-fg">lambda</span> data<span class="ansi-blue-fg">,</span> fxn<span class="ansi-blue-fg">:</span> fxn<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> map_schema<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> map_row<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     23</span>             )
-<span class="ansi-green-fg">---&gt; 24</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> map_row<span class="ansi-blue-fg">.</span>index
-<span class="ansi-green-intense-fg ansi-bold">     25</span>         ]
-<span class="ansi-green-intense-fg ansi-bold">     26</span>         indicies = [
-
-<span class="ansi-green-fg">&lt;ipython-input-5-3e9b3489a371&gt;</span> in <span class="ansi-cyan-fg">&lt;listcomp&gt;</span><span class="ansi-blue-fg">(.0)</span>
-<span class="ansi-green-intense-fg ansi-bold">     22</span>                 <span class="ansi-green-fg">lambda</span> data<span class="ansi-blue-fg">,</span> fxn<span class="ansi-blue-fg">:</span> fxn<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> map_schema<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> map_row<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     23</span>             )
-<span class="ansi-green-fg">---&gt; 24</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> map_row<span class="ansi-blue-fg">.</span>index
-<span class="ansi-green-intense-fg ansi-bold">     25</span>         ]
-<span class="ansi-green-intense-fg ansi-bold">     26</span>         indicies = [
-
-<span class="ansi-green-fg">&lt;ipython-input-5-3e9b3489a371&gt;</span> in <span class="ansi-cyan-fg">&lt;lambda&gt;</span><span class="ansi-blue-fg">(data, fxn)</span>
-<span class="ansi-green-intense-fg ansi-bold">     20</span>         results = [
-<span class="ansi-green-intense-fg ansi-bold">     21</span>             functools.reduce(
-<span class="ansi-green-fg">---&gt; 22</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">lambda</span> data<span class="ansi-blue-fg">,</span> fxn<span class="ansi-blue-fg">:</span> fxn<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> map_schema<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> map_row<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     23</span>             )
-<span class="ansi-green-intense-fg ansi-bold">     24</span>             <span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> map_row<span class="ansi-blue-fg">.</span>index
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/proofzero_sdk/util.py</span> in <span class="ansi-cyan-fg">parseDate</span><span class="ansi-blue-fg">(value)</span>
-<span class="ansi-green-intense-fg ansi-bold">    142</span>     &#34;&#34;&#34;
-<span class="ansi-green-intense-fg ansi-bold">    143</span>     <span class="ansi-red-fg"># Get a datetime from the passed value.</span>
-<span class="ansi-green-fg">--&gt; 144</span><span class="ansi-red-fg">     </span>parse_val<span class="ansi-blue-fg">:</span> Optional<span class="ansi-blue-fg">[</span>datetime<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> dateparser<span class="ansi-blue-fg">.</span>parse<span class="ansi-blue-fg">(</span>value<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    145</span>     <span class="ansi-green-fg">if</span> parse_val <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    146</span>         <span class="ansi-green-fg">return</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/dateparser/conf.py</span> in <span class="ansi-cyan-fg">wrapper</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">     87</span>             <span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;settings can only be either dict or instance of Settings class&#34;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     88</span> 
-<span class="ansi-green-fg">---&gt; 89</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     90</span>     <span class="ansi-green-fg">return</span> wrapper
-<span class="ansi-green-intense-fg ansi-bold">     91</span> 
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/dateparser/__init__.py</span> in <span class="ansi-cyan-fg">parse</span><span class="ansi-blue-fg">(date_string, date_formats, languages, locales, region, settings)</span>
-<span class="ansi-green-intense-fg ansi-bold">     52</span>                                 region=region, settings=settings)
-<span class="ansi-green-intense-fg ansi-bold">     53</span> 
-<span class="ansi-green-fg">---&gt; 54</span><span class="ansi-red-fg">     </span>data <span class="ansi-blue-fg">=</span> parser<span class="ansi-blue-fg">.</span>get_date_data<span class="ansi-blue-fg">(</span>date_string<span class="ansi-blue-fg">,</span> date_formats<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     55</span> 
-<span class="ansi-green-intense-fg ansi-bold">     56</span>     <span class="ansi-green-fg">if</span> data<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/dateparser/date.py</span> in <span class="ansi-cyan-fg">get_date_data</span><span class="ansi-blue-fg">(self, date_string, date_formats)</span>
-<span class="ansi-green-intense-fg ansi-bold">    410</span>         &#34;&#34;&#34;
-<span class="ansi-green-intense-fg ansi-bold">    411</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> isinstance<span class="ansi-blue-fg">(</span>date_string<span class="ansi-blue-fg">,</span> str<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 412</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;Input type must be str&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    413</span> 
-<span class="ansi-green-intense-fg ansi-bold">    414</span>         res <span class="ansi-blue-fg">=</span> parse_with_formats<span class="ansi-blue-fg">(</span>date_string<span class="ansi-blue-fg">,</span> date_formats <span class="ansi-green-fg">or</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>_settings<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">TypeError</span>: Input type must be str</pre>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>acct_num</th>
+      <th>name</th>
+      <th>address</th>
+      <th>phone</th>
+      <th>SIN</th>
+      <th>DOB</th>
+      <th>acct_num_0</th>
+      <th>name_title</th>
+      <th>name_first</th>
+      <th>name_middle</th>
+      <th>...</th>
+      <th>phone_10</th>
+      <th>phone_11</th>
+      <th>SIN_0</th>
+      <th>SIN_1</th>
+      <th>SIN_2</th>
+      <th>SIN_3</th>
+      <th>DOB_0</th>
+      <th>DOB_1</th>
+      <th>DOB_2</th>
+      <th>DOB_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>CUVC30129179791293</td>
+      <td>Kristin Sanchez MD</td>
+      <td>31417 Gina Lodge, Bradleytown, MB P7G 4N5</td>
+      <td>742 598 6794</td>
+      <td>203 268 552</td>
+      <td>1943/04/15</td>
+      <td>CUVC30129179791293</td>
+      <td></td>
+      <td>Kristin</td>
+      <td></td>
+      <td>...</td>
+      <td>20</td>
+      <td>None</td>
+      <td>203-268-552</td>
+      <td>203</td>
+      <td>268</td>
+      <td>552</td>
+      <td>1943-04-15</td>
+      <td>1943</td>
+      <td>4</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 40 columns</p>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -761,7 +734,7 @@ nb_path: "core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_2</span> <span class="o">=</span> <span class="n">index</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">data_2</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_2</span> <span class="o">=</span> <span class="n">index</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">tokens_2</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
     <span class="s1">&#39;acct_num&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseString</span><span class="p">],</span>
     <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseName</span><span class="p">],</span>
     <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseAddress</span><span class="p">],</span>
@@ -781,114 +754,80 @@ nb_path: "core.ipynb"
 
 <div class="output_area">
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-12-8fefa3df46d6&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span>     <span class="ansi-blue-fg">&#39;SIN&#39;</span><span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span>parseSIN<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">      7</span>     <span class="ansi-blue-fg">&#39;DOB&#39;</span><span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span>parseDate<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-fg">----&gt; 8</span><span class="ansi-red-fg"> }, suffix_delim=&#39;_&#39;)
-</span><span class="ansi-green-intense-fg ansi-bold">      9</span> index_2
 
-<span class="ansi-green-fg">&lt;ipython-input-7-642f6e60fab6&gt;</span> in <span class="ansi-cyan-fg">index</span><span class="ansi-blue-fg">(df, schema, hasher, suffix_delim)</span>
-<span class="ansi-green-intense-fg ansi-bold">     14</span>     The default hash function <span class="ansi-green-fg">is</span><span class="ansi-red-fg"> </span><span class="ansi-red-fg">`</span>sha2<span class="ansi-red-fg">`</span><span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">from</span> the Proof Zero utility SDK<span class="ansi-blue-fg">.</span>
-<span class="ansi-green-intense-fg ansi-bold">     15</span>     &#34;&#34;&#34;
-<span class="ansi-green-fg">---&gt; 16</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> tokenize<span class="ansi-blue-fg">(</span>df<span class="ansi-blue-fg">,</span> schema<span class="ansi-blue-fg">,</span> suffix_delim<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>applymap<span class="ansi-blue-fg">(</span>hasher<span class="ansi-blue-fg">)</span>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ansi-green-fg">&lt;ipython-input-5-3e9b3489a371&gt;</span> in <span class="ansi-cyan-fg">tokenize</span><span class="ansi-blue-fg">(df, schema, suffix_delim)</span>
-<span class="ansi-green-intense-fg ansi-bold">     45</span>                 axis<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     46</span>                 args<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">(</span>schema<span class="ansi-blue-fg">,</span> suffix_delim<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">---&gt; 47</span><span class="ansi-red-fg">                 </span>result_type<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;expand&#34;</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     48</span>             ),
-<span class="ansi-green-intense-fg ansi-bold">     49</span>         ],
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/frame.py</span> in <span class="ansi-cyan-fg">apply</span><span class="ansi-blue-fg">(self, func, axis, raw, result_type, args, **kwds)</span>
-<span class="ansi-green-intense-fg ansi-bold">   7766</span>             kwds<span class="ansi-blue-fg">=</span>kwds<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   7767</span>         )
-<span class="ansi-green-fg">-&gt; 7768</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> op<span class="ansi-blue-fg">.</span>get_result<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   7769</span> 
-<span class="ansi-green-intense-fg ansi-bold">   7770</span>     <span class="ansi-green-fg">def</span> applymap<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> func<span class="ansi-blue-fg">,</span> na_action<span class="ansi-blue-fg">:</span> Optional<span class="ansi-blue-fg">[</span>str<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> DataFrame<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/apply.py</span> in <span class="ansi-cyan-fg">get_result</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    183</span>             <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>apply_raw<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    184</span> 
-<span class="ansi-green-fg">--&gt; 185</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>apply_standard<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    186</span> 
-<span class="ansi-green-intense-fg ansi-bold">    187</span>     <span class="ansi-green-fg">def</span> apply_empty_result<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/apply.py</span> in <span class="ansi-cyan-fg">apply_standard</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    274</span> 
-<span class="ansi-green-intense-fg ansi-bold">    275</span>     <span class="ansi-green-fg">def</span> apply_standard<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 276</span><span class="ansi-red-fg">         </span>results<span class="ansi-blue-fg">,</span> res_index <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>apply_series_generator<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    277</span> 
-<span class="ansi-green-intense-fg ansi-bold">    278</span>         <span class="ansi-red-fg"># wrap results</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/apply.py</span> in <span class="ansi-cyan-fg">apply_series_generator</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    288</span>             <span class="ansi-green-fg">for</span> i<span class="ansi-blue-fg">,</span> v <span class="ansi-green-fg">in</span> enumerate<span class="ansi-blue-fg">(</span>series_gen<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    289</span>                 <span class="ansi-red-fg"># ignore SettingWithCopy here in case the user mutates</span>
-<span class="ansi-green-fg">--&gt; 290</span><span class="ansi-red-fg">                 </span>results<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>f<span class="ansi-blue-fg">(</span>v<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    291</span>                 <span class="ansi-green-fg">if</span> isinstance<span class="ansi-blue-fg">(</span>results<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> ABCSeries<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    292</span>                     <span class="ansi-red-fg"># If we have a view on v, we need to make a copy because</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/apply.py</span> in <span class="ansi-cyan-fg">f</span><span class="ansi-blue-fg">(x)</span>
-<span class="ansi-green-intense-fg ansi-bold">    108</span> 
-<span class="ansi-green-intense-fg ansi-bold">    109</span>             <span class="ansi-green-fg">def</span> f<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 110</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">return</span> func<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwds<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    111</span> 
-<span class="ansi-green-intense-fg ansi-bold">    112</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-5-3e9b3489a371&gt;</span> in <span class="ansi-cyan-fg">map_schema</span><span class="ansi-blue-fg">(map_row, map_schema, map_delim)</span>
-<span class="ansi-green-intense-fg ansi-bold">     22</span>                 <span class="ansi-green-fg">lambda</span> data<span class="ansi-blue-fg">,</span> fxn<span class="ansi-blue-fg">:</span> fxn<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> map_schema<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> map_row<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     23</span>             )
-<span class="ansi-green-fg">---&gt; 24</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> map_row<span class="ansi-blue-fg">.</span>index
-<span class="ansi-green-intense-fg ansi-bold">     25</span>         ]
-<span class="ansi-green-intense-fg ansi-bold">     26</span>         indicies = [
-
-<span class="ansi-green-fg">&lt;ipython-input-5-3e9b3489a371&gt;</span> in <span class="ansi-cyan-fg">&lt;listcomp&gt;</span><span class="ansi-blue-fg">(.0)</span>
-<span class="ansi-green-intense-fg ansi-bold">     22</span>                 <span class="ansi-green-fg">lambda</span> data<span class="ansi-blue-fg">,</span> fxn<span class="ansi-blue-fg">:</span> fxn<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> map_schema<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> map_row<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     23</span>             )
-<span class="ansi-green-fg">---&gt; 24</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> map_row<span class="ansi-blue-fg">.</span>index
-<span class="ansi-green-intense-fg ansi-bold">     25</span>         ]
-<span class="ansi-green-intense-fg ansi-bold">     26</span>         indicies = [
-
-<span class="ansi-green-fg">&lt;ipython-input-5-3e9b3489a371&gt;</span> in <span class="ansi-cyan-fg">&lt;lambda&gt;</span><span class="ansi-blue-fg">(data, fxn)</span>
-<span class="ansi-green-intense-fg ansi-bold">     20</span>         results = [
-<span class="ansi-green-intense-fg ansi-bold">     21</span>             functools.reduce(
-<span class="ansi-green-fg">---&gt; 22</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">lambda</span> data<span class="ansi-blue-fg">,</span> fxn<span class="ansi-blue-fg">:</span> fxn<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> map_schema<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> map_row<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     23</span>             )
-<span class="ansi-green-intense-fg ansi-bold">     24</span>             <span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> map_row<span class="ansi-blue-fg">.</span>index
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/proofzero_sdk/util.py</span> in <span class="ansi-cyan-fg">parseDate</span><span class="ansi-blue-fg">(value)</span>
-<span class="ansi-green-intense-fg ansi-bold">    142</span>     &#34;&#34;&#34;
-<span class="ansi-green-intense-fg ansi-bold">    143</span>     <span class="ansi-red-fg"># Get a datetime from the passed value.</span>
-<span class="ansi-green-fg">--&gt; 144</span><span class="ansi-red-fg">     </span>parse_val<span class="ansi-blue-fg">:</span> Optional<span class="ansi-blue-fg">[</span>datetime<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> dateparser<span class="ansi-blue-fg">.</span>parse<span class="ansi-blue-fg">(</span>value<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    145</span>     <span class="ansi-green-fg">if</span> parse_val <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    146</span>         <span class="ansi-green-fg">return</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/dateparser/conf.py</span> in <span class="ansi-cyan-fg">wrapper</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">     87</span>             <span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;settings can only be either dict or instance of Settings class&#34;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     88</span> 
-<span class="ansi-green-fg">---&gt; 89</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     90</span>     <span class="ansi-green-fg">return</span> wrapper
-<span class="ansi-green-intense-fg ansi-bold">     91</span> 
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/dateparser/__init__.py</span> in <span class="ansi-cyan-fg">parse</span><span class="ansi-blue-fg">(date_string, date_formats, languages, locales, region, settings)</span>
-<span class="ansi-green-intense-fg ansi-bold">     52</span>                                 region=region, settings=settings)
-<span class="ansi-green-intense-fg ansi-bold">     53</span> 
-<span class="ansi-green-fg">---&gt; 54</span><span class="ansi-red-fg">     </span>data <span class="ansi-blue-fg">=</span> parser<span class="ansi-blue-fg">.</span>get_date_data<span class="ansi-blue-fg">(</span>date_string<span class="ansi-blue-fg">,</span> date_formats<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     55</span> 
-<span class="ansi-green-intense-fg ansi-bold">     56</span>     <span class="ansi-green-fg">if</span> data<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/dateparser/date.py</span> in <span class="ansi-cyan-fg">get_date_data</span><span class="ansi-blue-fg">(self, date_string, date_formats)</span>
-<span class="ansi-green-intense-fg ansi-bold">    410</span>         &#34;&#34;&#34;
-<span class="ansi-green-intense-fg ansi-bold">    411</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> isinstance<span class="ansi-blue-fg">(</span>date_string<span class="ansi-blue-fg">,</span> str<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 412</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;Input type must be str&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    413</span> 
-<span class="ansi-green-intense-fg ansi-bold">    414</span>         res <span class="ansi-blue-fg">=</span> parse_with_formats<span class="ansi-blue-fg">(</span>date_string<span class="ansi-blue-fg">,</span> date_formats <span class="ansi-green-fg">or</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>_settings<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">TypeError</span>: Input type must be str</pre>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>acct_num</th>
+      <th>name</th>
+      <th>address</th>
+      <th>phone</th>
+      <th>SIN</th>
+      <th>DOB</th>
+      <th>acct_num_0</th>
+      <th>name_title</th>
+      <th>name_first</th>
+      <th>name_middle</th>
+      <th>...</th>
+      <th>phone_10</th>
+      <th>phone_11</th>
+      <th>SIN_0</th>
+      <th>SIN_1</th>
+      <th>SIN_2</th>
+      <th>SIN_3</th>
+      <th>DOB_0</th>
+      <th>DOB_1</th>
+      <th>DOB_2</th>
+      <th>DOB_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>3118710362407207060820519817066124611602675044...</td>
+      <td>4418369248196592421047499630841732388346555327...</td>
+      <td>9594784023836219556184433361991357495783756657...</td>
+      <td>5103122257192237244690193744677031637888782293...</td>
+      <td>1010505653944236458406177846488691380962181960...</td>
+      <td>5141391390246777661242717464678167327763772345...</td>
+      <td>3118710362407207060820519817066124611602675044...</td>
+      <td>3877226117079751550214273725156091025388555585...</td>
+      <td>9229611837054111477081027882940374069625694253...</td>
+      <td>3877226117079751550214273725156091025388555585...</td>
+      <td>...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1148673251264303964479456609021610855802601825...</td>
+      <td>2948056107977080813370872483486457740221751010...</td>
+      <td>5545403145286023377289154093249644763249517306...</td>
+      <td>1018998564061470247772449997659560822438884579...</td>
+      <td>7644637171458321163635300620903733517024394144...</td>
+      <td>1020423811237369131177406386728771151256212182...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>9930297093447128312648856684579760333304390435...</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 40 columns</p>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -909,6 +848,112 @@ nb_path: "core.ipynb"
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Index([&#39;acct_num&#39;, &#39;name&#39;, &#39;address&#39;, &#39;phone&#39;, &#39;SIN&#39;, &#39;DOB&#39;, &#39;acct_num_0&#39;,
+       &#39;name_title&#39;, &#39;name_first&#39;, &#39;name_middle&#39;, &#39;name_last&#39;, &#39;name_suffix&#39;,
+       &#39;name_nickname&#39;, &#39;address_0&#39;, &#39;address_1&#39;, &#39;address_2&#39;, &#39;address_3&#39;,
+       &#39;address_4&#39;, &#39;address_5&#39;, &#39;address_6&#39;, &#39;phone_0&#39;, &#39;phone_1&#39;, &#39;phone_2&#39;,
+       &#39;phone_3&#39;, &#39;phone_4&#39;, &#39;phone_5&#39;, &#39;phone_6&#39;, &#39;phone_7&#39;, &#39;phone_8&#39;,
+       &#39;phone_9&#39;, &#39;phone_10&#39;, &#39;phone_11&#39;, &#39;SIN_0&#39;, &#39;SIN_1&#39;, &#39;SIN_2&#39;, &#39;SIN_3&#39;,
+       &#39;DOB_0&#39;, &#39;DOB_1&#39;, &#39;DOB_2&#39;, &#39;DOB_3&#39;],
+      dtype=&#39;object&#39;)
+Index([&#39;acct_num&#39;, &#39;name&#39;, &#39;address&#39;, &#39;phone&#39;, &#39;SIN&#39;, &#39;DOB&#39;, &#39;acct_num_0&#39;,
+       &#39;name_title&#39;, &#39;name_first&#39;, &#39;name_middle&#39;, &#39;name_last&#39;, &#39;name_suffix&#39;,
+       &#39;name_nickname&#39;, &#39;address_0&#39;, &#39;address_1&#39;, &#39;address_2&#39;, &#39;address_3&#39;,
+       &#39;address_4&#39;, &#39;address_5&#39;, &#39;address_6&#39;, &#39;phone_0&#39;, &#39;phone_1&#39;, &#39;phone_2&#39;,
+       &#39;phone_3&#39;, &#39;phone_4&#39;, &#39;phone_5&#39;, &#39;phone_6&#39;, &#39;phone_7&#39;, &#39;phone_8&#39;,
+       &#39;phone_9&#39;, &#39;phone_10&#39;, &#39;phone_11&#39;, &#39;SIN_0&#39;, &#39;SIN_1&#39;, &#39;SIN_2&#39;, &#39;SIN_3&#39;,
+       &#39;DOB_0&#39;, &#39;DOB_1&#39;, &#39;DOB_2&#39;, &#39;DOB_3&#39;],
+      dtype=&#39;object&#39;)
+[&#39;phone_10&#39;, &#39;DOB_0&#39;, &#39;phone_4&#39;, &#39;address_1&#39;, &#39;SIN_0&#39;, &#39;name_last&#39;, &#39;SIN&#39;, &#39;address_5&#39;, &#39;phone_0&#39;, &#39;name_suffix&#39;, &#39;phone_2&#39;, &#39;phone_3&#39;, &#39;name_first&#39;, &#39;SIN_1&#39;, &#39;name_title&#39;, &#39;phone&#39;, &#39;acct_num_0&#39;, &#39;address_4&#39;, &#39;DOB_2&#39;, &#39;name&#39;, &#39;address_6&#39;, &#39;acct_num&#39;, &#39;DOB&#39;, &#39;address_0&#39;, &#39;phone_1&#39;, &#39;address&#39;, &#39;SIN_2&#39;, &#39;SIN_3&#39;, &#39;phone_8&#39;, &#39;phone_7&#39;, &#39;address_3&#39;, &#39;phone_6&#39;, &#39;address_2&#39;, &#39;DOB_3&#39;, &#39;phone_5&#39;, &#39;name_middle&#39;, &#39;phone_11&#39;, &#39;phone_9&#39;, &#39;name_nickname&#39;, &#39;DOB_1&#39;]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/managers.py</span> in <span class="ansi-cyan-fg">create_block_manager_from_arrays</span><span class="ansi-blue-fg">(arrays, names, axes)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1701</span>         blocks <span class="ansi-blue-fg">=</span> _form_blocks<span class="ansi-blue-fg">(</span>arrays<span class="ansi-blue-fg">,</span> names<span class="ansi-blue-fg">,</span> axes<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">-&gt; 1702</span><span class="ansi-red-fg">         </span>mgr <span class="ansi-blue-fg">=</span> BlockManager<span class="ansi-blue-fg">(</span>blocks<span class="ansi-blue-fg">,</span> axes<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1703</span>         mgr<span class="ansi-blue-fg">.</span>_consolidate_inplace<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/managers.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, blocks, axes, do_integrity_check)</span>
+<span class="ansi-green-intense-fg ansi-bold">    142</span>         <span class="ansi-green-fg">if</span> do_integrity_check<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 143</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_verify_integrity<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    144</span> 
+
+<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/managers.py</span> in <span class="ansi-cyan-fg">_verify_integrity</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    322</span>             <span class="ansi-green-fg">if</span> block<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">!=</span> mgr_shape<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 323</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">raise</span> construction_error<span class="ansi-blue-fg">(</span>tot_items<span class="ansi-blue-fg">,</span> block<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>axes<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    324</span>         <span class="ansi-green-fg">if</span> len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>items<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">!=</span> tot_items<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">ValueError</span>: Shape of passed values is (40, 2), indices imply (0, 2)
+
+During handling of the above exception, another exception occurred:
+
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-55-0393bd1ff80a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>match_frame <span class="ansi-blue-fg">=</span> match<span class="ansi-blue-fg">(</span>index_1<span class="ansi-blue-fg">,</span> index_2<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> match_frame
+
+<span class="ansi-green-fg">&lt;ipython-input-51-5ad513511cde&gt;</span> in <span class="ansi-cyan-fg">match</span><span class="ansi-blue-fg">(index_0, index_1, api_key)</span>
+<span class="ansi-green-intense-fg ansi-bold">     22</span> 
+<span class="ansi-green-intense-fg ansi-bold">     23</span>     df <span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>merge<span class="ansi-blue-fg">(</span>index_0<span class="ansi-blue-fg">,</span> index_1<span class="ansi-blue-fg">,</span> how<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;outer&#39;</span><span class="ansi-blue-fg">,</span> on<span class="ansi-blue-fg">=</span>common_columns<span class="ansi-blue-fg">,</span> indicator<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">---&gt; 24</span><span class="ansi-red-fg">     </span>print<span class="ansi-blue-fg">(</span>pd<span class="ansi-blue-fg">.</span>crosstab<span class="ansi-blue-fg">(</span>index_0<span class="ansi-blue-fg">,</span> index_1<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     25</span> 
+<span class="ansi-green-intense-fg ansi-bold">     26</span>     <span class="ansi-green-fg">return</span> df
+
+<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/reshape/pivot.py</span> in <span class="ansi-cyan-fg">crosstab</span><span class="ansi-blue-fg">(index, columns, values, rownames, colnames, aggfunc, margins, margins_name, dropna, normalize)</span>
+<span class="ansi-green-intense-fg ansi-bold">    596</span>         <span class="ansi-blue-fg">**</span>dict<span class="ansi-blue-fg">(</span>zip<span class="ansi-blue-fg">(</span>unique_colnames<span class="ansi-blue-fg">,</span> columns<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    597</span>     }
+<span class="ansi-green-fg">--&gt; 598</span><span class="ansi-red-fg">     </span>df <span class="ansi-blue-fg">=</span> DataFrame<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">=</span>common_idx<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    599</span>     original_df_cols <span class="ansi-blue-fg">=</span> df<span class="ansi-blue-fg">.</span>columns
+<span class="ansi-green-intense-fg ansi-bold">    600</span> 
+
+<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/frame.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, data, index, columns, dtype, copy)</span>
+<span class="ansi-green-intense-fg ansi-bold">    527</span> 
+<span class="ansi-green-intense-fg ansi-bold">    528</span>         <span class="ansi-green-fg">elif</span> isinstance<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> dict<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 529</span><span class="ansi-red-fg">             </span>mgr <span class="ansi-blue-fg">=</span> init_dict<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">,</span> columns<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span>dtype<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    530</span>         <span class="ansi-green-fg">elif</span> isinstance<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> ma<span class="ansi-blue-fg">.</span>MaskedArray<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    531</span>             <span class="ansi-green-fg">import</span> numpy<span class="ansi-blue-fg">.</span>ma<span class="ansi-blue-fg">.</span>mrecords <span class="ansi-green-fg">as</span> mrecords
+
+<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/construction.py</span> in <span class="ansi-cyan-fg">init_dict</span><span class="ansi-blue-fg">(data, index, columns, dtype)</span>
+<span class="ansi-green-intense-fg ansi-bold">    285</span>             arr <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> is_datetime64tz_dtype<span class="ansi-blue-fg">(</span>arr<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">else</span> arr<span class="ansi-blue-fg">.</span>copy<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> arr <span class="ansi-green-fg">in</span> arrays
+<span class="ansi-green-intense-fg ansi-bold">    286</span>         ]
+<span class="ansi-green-fg">--&gt; 287</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> arrays_to_mgr<span class="ansi-blue-fg">(</span>arrays<span class="ansi-blue-fg">,</span> data_names<span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">,</span> columns<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span>dtype<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    288</span> 
+<span class="ansi-green-intense-fg ansi-bold">    289</span> 
+
+<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/construction.py</span> in <span class="ansi-cyan-fg">arrays_to_mgr</span><span class="ansi-blue-fg">(arrays, arr_names, index, columns, dtype, verify_integrity)</span>
+<span class="ansi-green-intense-fg ansi-bold">     93</span>     axes <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span>columns<span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">     94</span> 
+<span class="ansi-green-fg">---&gt; 95</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> create_block_manager_from_arrays<span class="ansi-blue-fg">(</span>arrays<span class="ansi-blue-fg">,</span> arr_names<span class="ansi-blue-fg">,</span> axes<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     96</span> 
+<span class="ansi-green-intense-fg ansi-bold">     97</span> 
+
+<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/managers.py</span> in <span class="ansi-cyan-fg">create_block_manager_from_arrays</span><span class="ansi-blue-fg">(arrays, names, axes)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1704</span>         <span class="ansi-green-fg">return</span> mgr
+<span class="ansi-green-intense-fg ansi-bold">   1705</span>     <span class="ansi-green-fg">except</span> ValueError <span class="ansi-green-fg">as</span> e<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1706</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> construction_error<span class="ansi-blue-fg">(</span>len<span class="ansi-blue-fg">(</span>arrays<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> arrays<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">,</span> axes<span class="ansi-blue-fg">,</span> e<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1707</span> 
+<span class="ansi-green-intense-fg ansi-bold">   1708</span> 
+
+<span class="ansi-red-fg">ValueError</span>: Shape of passed values is (40, 2), indices imply (0, 2)</pre>
+</div>
+</div>
+
 </div>
 </div>
 
