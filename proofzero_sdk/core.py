@@ -86,17 +86,29 @@ def index(
 MatchFrame = NewType('MatchFrame', IndexFrame)
 
 def match(
-    index_0: IndexFrame, index_1: IndexFrame, api_key: str = ''
+    index_0: IndexFrame, index_1: IndexFrame, sensitivity = 0.5, api_key: str = None
 ) -> pd.DataFrame:
     """
     Discover matches between the two passed DataFrames. If `api_key` is set the indexed data can be matched using Proof Zero's cluster.
 
+    `index_0` should contain exactly one row. If a whole-frame match is required pass this function to `pandas.DataFrame.apply`.
+
+    `sensitivity` is the lowest [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index), as a percentage, that indicates a match.
+
     This function is compute-intense. Contact us for cloud scaling help.
     """
-    common_columns = list(set(index_0.columns) & set(index_1.columns))
-    if (len(common_columns) < 1):
+    column_intersect = list(set(index_0.columns) & set(index_1.columns))
+    column_union = list(set(index_0.columns) | set(index_1.columns))
+    column_jaccard = len(column_intersect) / len(column_union) # Can use the column Jaccard Index to normalize the row Jaccard, below.
+
+    if (len(index_0) != 1):
+        raise RuntimeError('Pass exactly one index as index_0.')
+
+    if (len(column_intersect) < 1):
         raise RuntimeError('No schema overlap -- some columns must match (parsing functions in schema must emit tags that match across both frames).')
 
-    # Crosstab values, then flatten, and build merge query, per row.
-
-    return df
+    df = pd.DataFrame(index_1)
+    df = df[df.columns[df.apply(lambda c: len(c.unique()) > 1)]]
+    df['_match'] = df.apply(lambda r: len(set(r) & set(index_0.iloc[0])) / len(set(r) | set(index_0.iloc[0])), axis=1)
+    df = df.sort_values(by='_match', ascending=False)
+    return df[df['_match'] > sensitivity]

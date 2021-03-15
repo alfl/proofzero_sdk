@@ -524,9 +524,11 @@ nb_path: "core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="match" class="doc_header"><code>match</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>match</code>(<strong><code>index_0</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>index_1</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>api_key</code></strong>:<code>str</code>=<em><code>''</code></em>)</p>
+<h4 id="match" class="doc_header"><code>match</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>match</code>(<strong><code>index_0</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>index_1</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>sensitivity</code></strong>=<em><code>0.5</code></em>, <strong><code>api_key</code></strong>:<code>str</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Discover matches between the two passed DataFrames. If <code>api_key</code> is set the indexed data can be matched using Proof Zero's cluster.</p>
+<p><code>index_0</code> should contain exactly one row. If a whole-frame match is required pass this function to <code>pandas.DataFrame.apply</code>.</p>
+<p><code>sensitivity</code> is the lowest <a href="https://en.wikipedia.org/wiki/Jaccard_index">Jaccard Index</a>, as a percentage, that indicates a match.</p>
 <p>This function is compute-intense. Contact us for cloud scaling help.</p>
 
 </div>
@@ -554,8 +556,7 @@ nb_path: "core.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_2</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s1">&#39;./data_2.csv&#39;</span><span class="p">)</span>
-<span class="n">data_2</span> <span class="o">=</span> <span class="n">data_2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
-<span class="n">data_2</span>
+<span class="n">data_2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
 </pre></div>
 
     </div>
@@ -625,15 +626,15 @@ nb_path: "core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens_2</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">data_2</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens_2</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">data_2</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
     <span class="s1">&#39;acct_num&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseString</span><span class="p">],</span>
     <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseName</span><span class="p">],</span>
     <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseAddress</span><span class="p">],</span>
     <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parsePhone</span><span class="p">],</span>
     <span class="s1">&#39;SIN&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseSIN</span><span class="p">],</span>
     <span class="s1">&#39;DOB&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseDate</span><span class="p">]</span>
-<span class="p">},</span> <span class="n">suffix_delim</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
-<span class="n">tokens_2</span>
+<span class="p">},</span> <span class="n">suffix_delim</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tokens_2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
 </pre></div>
 
     </div>
@@ -671,21 +672,21 @@ nb_path: "core.ipynb"
       <th>phone</th>
       <th>SIN</th>
       <th>DOB</th>
-      <th>acct_num_0</th>
-      <th>name_title</th>
-      <th>name_first</th>
-      <th>name_middle</th>
-      <th>...</th>
-      <th>phone_10</th>
-      <th>phone_11</th>
-      <th>SIN_0</th>
-      <th>SIN_1</th>
-      <th>SIN_2</th>
-      <th>SIN_3</th>
       <th>DOB_0</th>
       <th>DOB_1</th>
       <th>DOB_2</th>
       <th>DOB_3</th>
+      <th>...</th>
+      <th>phone_10</th>
+      <th>phone_11</th>
+      <th>phone_2</th>
+      <th>phone_3</th>
+      <th>phone_4</th>
+      <th>phone_5</th>
+      <th>phone_6</th>
+      <th>phone_7</th>
+      <th>phone_8</th>
+      <th>phone_9</th>
     </tr>
   </thead>
   <tbody>
@@ -697,25 +698,25 @@ nb_path: "core.ipynb"
       <td>742 598 6794</td>
       <td>203 268 552</td>
       <td>1943/04/15</td>
-      <td>CUVC30129179791293</td>
-      <td></td>
-      <td>Kristin</td>
-      <td></td>
-      <td>...</td>
-      <td>20</td>
-      <td>None</td>
-      <td>203-268-552</td>
-      <td>203</td>
-      <td>268</td>
-      <td>552</td>
       <td>1943-04-15</td>
       <td>1943</td>
       <td>4</td>
       <td>15</td>
+      <td>...</td>
+      <td>20</td>
+      <td>None</td>
+      <td>742</td>
+      <td>598</td>
+      <td>6794</td>
+      <td>7425986794</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>742 598 6794</td>
     </tr>
   </tbody>
 </table>
-<p>1 rows × 40 columns</p>
+<p>1 rows × 43 columns</p>
 </div>
 </div>
 
@@ -742,7 +743,7 @@ nb_path: "core.ipynb"
     <span class="s1">&#39;SIN&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseSIN</span><span class="p">],</span>
     <span class="s1">&#39;DOB&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseDate</span><span class="p">]</span>
 <span class="p">},</span> <span class="n">suffix_delim</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
-<span class="n">index_2</span>
+<span class="n">index_2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
 </pre></div>
 
     </div>
@@ -780,21 +781,21 @@ nb_path: "core.ipynb"
       <th>phone</th>
       <th>SIN</th>
       <th>DOB</th>
-      <th>acct_num_0</th>
-      <th>name_title</th>
-      <th>name_first</th>
-      <th>name_middle</th>
-      <th>...</th>
-      <th>phone_10</th>
-      <th>phone_11</th>
-      <th>SIN_0</th>
-      <th>SIN_1</th>
-      <th>SIN_2</th>
-      <th>SIN_3</th>
       <th>DOB_0</th>
       <th>DOB_1</th>
       <th>DOB_2</th>
       <th>DOB_3</th>
+      <th>...</th>
+      <th>phone_10</th>
+      <th>phone_11</th>
+      <th>phone_2</th>
+      <th>phone_3</th>
+      <th>phone_4</th>
+      <th>phone_5</th>
+      <th>phone_6</th>
+      <th>phone_7</th>
+      <th>phone_8</th>
+      <th>phone_9</th>
     </tr>
   </thead>
   <tbody>
@@ -806,25 +807,25 @@ nb_path: "core.ipynb"
       <td>5103122257192237244690193744677031637888782293...</td>
       <td>1010505653944236458406177846488691380962181960...</td>
       <td>5141391390246777661242717464678167327763772345...</td>
-      <td>3118710362407207060820519817066124611602675044...</td>
-      <td>3877226117079751550214273725156091025388555585...</td>
-      <td>9229611837054111477081027882940374069625694253...</td>
-      <td>3877226117079751550214273725156091025388555585...</td>
-      <td>...</td>
-      <td>1950749364813865911797004310287114589195880318...</td>
-      <td>6586455234700639270600574409018427069812517107...</td>
-      <td>1148673251264303964479456609021610855802601825...</td>
-      <td>2948056107977080813370872483486457740221751010...</td>
-      <td>5545403145286023377289154093249644763249517306...</td>
-      <td>1018998564061470247772449997659560822438884579...</td>
       <td>7644637171458321163635300620903733517024394144...</td>
       <td>1020423811237369131177406386728771151256212182...</td>
       <td>6275815013823685249316828430045322558920567663...</td>
       <td>9930297093447128312648856684579760333304390435...</td>
+      <td>...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1535860380141259287318590160938114468677934395...</td>
+      <td>6055181033144981996992600968534808922389255124...</td>
+      <td>5598189335674161013176229442725892028281044088...</td>
+      <td>2209634314611670011518640833334290179954075682...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5103122257192237244690193744677031637888782293...</td>
     </tr>
   </tbody>
 </table>
-<p>1 rows × 40 columns</p>
+<p>1 rows × 43 columns</p>
 </div>
 </div>
 
@@ -856,102 +857,80 @@ nb_path: "core.ipynb"
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Index([&#39;acct_num&#39;, &#39;name&#39;, &#39;address&#39;, &#39;phone&#39;, &#39;SIN&#39;, &#39;DOB&#39;, &#39;acct_num_0&#39;,
-       &#39;name_title&#39;, &#39;name_first&#39;, &#39;name_middle&#39;, &#39;name_last&#39;, &#39;name_suffix&#39;,
-       &#39;name_nickname&#39;, &#39;address_0&#39;, &#39;address_1&#39;, &#39;address_2&#39;, &#39;address_3&#39;,
-       &#39;address_4&#39;, &#39;address_5&#39;, &#39;address_6&#39;, &#39;phone_0&#39;, &#39;phone_1&#39;, &#39;phone_2&#39;,
-       &#39;phone_3&#39;, &#39;phone_4&#39;, &#39;phone_5&#39;, &#39;phone_6&#39;, &#39;phone_7&#39;, &#39;phone_8&#39;,
-       &#39;phone_9&#39;, &#39;phone_10&#39;, &#39;phone_11&#39;, &#39;SIN_0&#39;, &#39;SIN_1&#39;, &#39;SIN_2&#39;, &#39;SIN_3&#39;,
-       &#39;DOB_0&#39;, &#39;DOB_1&#39;, &#39;DOB_2&#39;, &#39;DOB_3&#39;],
-      dtype=&#39;object&#39;)
-Index([&#39;acct_num&#39;, &#39;name&#39;, &#39;address&#39;, &#39;phone&#39;, &#39;SIN&#39;, &#39;DOB&#39;, &#39;acct_num_0&#39;,
-       &#39;name_title&#39;, &#39;name_first&#39;, &#39;name_middle&#39;, &#39;name_last&#39;, &#39;name_suffix&#39;,
-       &#39;name_nickname&#39;, &#39;address_0&#39;, &#39;address_1&#39;, &#39;address_2&#39;, &#39;address_3&#39;,
-       &#39;address_4&#39;, &#39;address_5&#39;, &#39;address_6&#39;, &#39;phone_0&#39;, &#39;phone_1&#39;, &#39;phone_2&#39;,
-       &#39;phone_3&#39;, &#39;phone_4&#39;, &#39;phone_5&#39;, &#39;phone_6&#39;, &#39;phone_7&#39;, &#39;phone_8&#39;,
-       &#39;phone_9&#39;, &#39;phone_10&#39;, &#39;phone_11&#39;, &#39;SIN_0&#39;, &#39;SIN_1&#39;, &#39;SIN_2&#39;, &#39;SIN_3&#39;,
-       &#39;DOB_0&#39;, &#39;DOB_1&#39;, &#39;DOB_2&#39;, &#39;DOB_3&#39;],
-      dtype=&#39;object&#39;)
-[&#39;phone_10&#39;, &#39;DOB_0&#39;, &#39;phone_4&#39;, &#39;address_1&#39;, &#39;SIN_0&#39;, &#39;name_last&#39;, &#39;SIN&#39;, &#39;address_5&#39;, &#39;phone_0&#39;, &#39;name_suffix&#39;, &#39;phone_2&#39;, &#39;phone_3&#39;, &#39;name_first&#39;, &#39;SIN_1&#39;, &#39;name_title&#39;, &#39;phone&#39;, &#39;acct_num_0&#39;, &#39;address_4&#39;, &#39;DOB_2&#39;, &#39;name&#39;, &#39;address_6&#39;, &#39;acct_num&#39;, &#39;DOB&#39;, &#39;address_0&#39;, &#39;phone_1&#39;, &#39;address&#39;, &#39;SIN_2&#39;, &#39;SIN_3&#39;, &#39;phone_8&#39;, &#39;phone_7&#39;, &#39;address_3&#39;, &#39;phone_6&#39;, &#39;address_2&#39;, &#39;DOB_3&#39;, &#39;phone_5&#39;, &#39;name_middle&#39;, &#39;phone_11&#39;, &#39;phone_9&#39;, &#39;name_nickname&#39;, &#39;DOB_1&#39;]
-</pre>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>acct_num</th>
+      <th>name</th>
+      <th>address</th>
+      <th>phone</th>
+      <th>SIN</th>
+      <th>DOB</th>
+      <th>DOB_0</th>
+      <th>DOB_1</th>
+      <th>DOB_2</th>
+      <th>DOB_3</th>
+      <th>...</th>
+      <th>phone_0</th>
+      <th>phone_10</th>
+      <th>phone_2</th>
+      <th>phone_3</th>
+      <th>phone_4</th>
+      <th>phone_5</th>
+      <th>phone_6</th>
+      <th>phone_7</th>
+      <th>phone_9</th>
+      <th>_match</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>3118710362407207060820519817066124611602675044...</td>
+      <td>4418369248196592421047499630841732388346555327...</td>
+      <td>9594784023836219556184433361991357495783756657...</td>
+      <td>5103122257192237244690193744677031637888782293...</td>
+      <td>1010505653944236458406177846488691380962181960...</td>
+      <td>5141391390246777661242717464678167327763772345...</td>
+      <td>7644637171458321163635300620903733517024394144...</td>
+      <td>1020423811237369131177406386728771151256212182...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>9930297093447128312648856684579760333304390435...</td>
+      <td>...</td>
+      <td>7341275782727882540070624817464065162426234694...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>1535860380141259287318590160938114468677934395...</td>
+      <td>6055181033144981996992600968534808922389255124...</td>
+      <td>5598189335674161013176229442725892028281044088...</td>
+      <td>2209634314611670011518640833334290179954075682...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5103122257192237244690193744677031637888782293...</td>
+      <td>0.692308</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 39 columns</p>
 </div>
 </div>
 
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/managers.py</span> in <span class="ansi-cyan-fg">create_block_manager_from_arrays</span><span class="ansi-blue-fg">(arrays, names, axes)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1701</span>         blocks <span class="ansi-blue-fg">=</span> _form_blocks<span class="ansi-blue-fg">(</span>arrays<span class="ansi-blue-fg">,</span> names<span class="ansi-blue-fg">,</span> axes<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">-&gt; 1702</span><span class="ansi-red-fg">         </span>mgr <span class="ansi-blue-fg">=</span> BlockManager<span class="ansi-blue-fg">(</span>blocks<span class="ansi-blue-fg">,</span> axes<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1703</span>         mgr<span class="ansi-blue-fg">.</span>_consolidate_inplace<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/managers.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, blocks, axes, do_integrity_check)</span>
-<span class="ansi-green-intense-fg ansi-bold">    142</span>         <span class="ansi-green-fg">if</span> do_integrity_check<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 143</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_verify_integrity<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    144</span> 
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/managers.py</span> in <span class="ansi-cyan-fg">_verify_integrity</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    322</span>             <span class="ansi-green-fg">if</span> block<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">!=</span> mgr_shape<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 323</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">raise</span> construction_error<span class="ansi-blue-fg">(</span>tot_items<span class="ansi-blue-fg">,</span> block<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>axes<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    324</span>         <span class="ansi-green-fg">if</span> len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>items<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">!=</span> tot_items<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-red-fg">ValueError</span>: Shape of passed values is (40, 2), indices imply (0, 2)
-
-During handling of the above exception, another exception occurred:
-
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-55-0393bd1ff80a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>match_frame <span class="ansi-blue-fg">=</span> match<span class="ansi-blue-fg">(</span>index_1<span class="ansi-blue-fg">,</span> index_2<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> match_frame
-
-<span class="ansi-green-fg">&lt;ipython-input-51-5ad513511cde&gt;</span> in <span class="ansi-cyan-fg">match</span><span class="ansi-blue-fg">(index_0, index_1, api_key)</span>
-<span class="ansi-green-intense-fg ansi-bold">     22</span> 
-<span class="ansi-green-intense-fg ansi-bold">     23</span>     df <span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>merge<span class="ansi-blue-fg">(</span>index_0<span class="ansi-blue-fg">,</span> index_1<span class="ansi-blue-fg">,</span> how<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;outer&#39;</span><span class="ansi-blue-fg">,</span> on<span class="ansi-blue-fg">=</span>common_columns<span class="ansi-blue-fg">,</span> indicator<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">---&gt; 24</span><span class="ansi-red-fg">     </span>print<span class="ansi-blue-fg">(</span>pd<span class="ansi-blue-fg">.</span>crosstab<span class="ansi-blue-fg">(</span>index_0<span class="ansi-blue-fg">,</span> index_1<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     25</span> 
-<span class="ansi-green-intense-fg ansi-bold">     26</span>     <span class="ansi-green-fg">return</span> df
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/reshape/pivot.py</span> in <span class="ansi-cyan-fg">crosstab</span><span class="ansi-blue-fg">(index, columns, values, rownames, colnames, aggfunc, margins, margins_name, dropna, normalize)</span>
-<span class="ansi-green-intense-fg ansi-bold">    596</span>         <span class="ansi-blue-fg">**</span>dict<span class="ansi-blue-fg">(</span>zip<span class="ansi-blue-fg">(</span>unique_colnames<span class="ansi-blue-fg">,</span> columns<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    597</span>     }
-<span class="ansi-green-fg">--&gt; 598</span><span class="ansi-red-fg">     </span>df <span class="ansi-blue-fg">=</span> DataFrame<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">=</span>common_idx<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    599</span>     original_df_cols <span class="ansi-blue-fg">=</span> df<span class="ansi-blue-fg">.</span>columns
-<span class="ansi-green-intense-fg ansi-bold">    600</span> 
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/frame.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, data, index, columns, dtype, copy)</span>
-<span class="ansi-green-intense-fg ansi-bold">    527</span> 
-<span class="ansi-green-intense-fg ansi-bold">    528</span>         <span class="ansi-green-fg">elif</span> isinstance<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> dict<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 529</span><span class="ansi-red-fg">             </span>mgr <span class="ansi-blue-fg">=</span> init_dict<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">,</span> columns<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span>dtype<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    530</span>         <span class="ansi-green-fg">elif</span> isinstance<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> ma<span class="ansi-blue-fg">.</span>MaskedArray<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    531</span>             <span class="ansi-green-fg">import</span> numpy<span class="ansi-blue-fg">.</span>ma<span class="ansi-blue-fg">.</span>mrecords <span class="ansi-green-fg">as</span> mrecords
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/construction.py</span> in <span class="ansi-cyan-fg">init_dict</span><span class="ansi-blue-fg">(data, index, columns, dtype)</span>
-<span class="ansi-green-intense-fg ansi-bold">    285</span>             arr <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> is_datetime64tz_dtype<span class="ansi-blue-fg">(</span>arr<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">else</span> arr<span class="ansi-blue-fg">.</span>copy<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">for</span> arr <span class="ansi-green-fg">in</span> arrays
-<span class="ansi-green-intense-fg ansi-bold">    286</span>         ]
-<span class="ansi-green-fg">--&gt; 287</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> arrays_to_mgr<span class="ansi-blue-fg">(</span>arrays<span class="ansi-blue-fg">,</span> data_names<span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">,</span> columns<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span>dtype<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    288</span> 
-<span class="ansi-green-intense-fg ansi-bold">    289</span> 
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/construction.py</span> in <span class="ansi-cyan-fg">arrays_to_mgr</span><span class="ansi-blue-fg">(arrays, arr_names, index, columns, dtype, verify_integrity)</span>
-<span class="ansi-green-intense-fg ansi-bold">     93</span>     axes <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span>columns<span class="ansi-blue-fg">,</span> index<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     94</span> 
-<span class="ansi-green-fg">---&gt; 95</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> create_block_manager_from_arrays<span class="ansi-blue-fg">(</span>arrays<span class="ansi-blue-fg">,</span> arr_names<span class="ansi-blue-fg">,</span> axes<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     96</span> 
-<span class="ansi-green-intense-fg ansi-bold">     97</span> 
-
-<span class="ansi-green-fg">~/Projects/p0/proofzero_sdk/venv/lib/python3.7/site-packages/pandas/core/internals/managers.py</span> in <span class="ansi-cyan-fg">create_block_manager_from_arrays</span><span class="ansi-blue-fg">(arrays, names, axes)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1704</span>         <span class="ansi-green-fg">return</span> mgr
-<span class="ansi-green-intense-fg ansi-bold">   1705</span>     <span class="ansi-green-fg">except</span> ValueError <span class="ansi-green-fg">as</span> e<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">-&gt; 1706</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">raise</span> construction_error<span class="ansi-blue-fg">(</span>len<span class="ansi-blue-fg">(</span>arrays<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> arrays<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">,</span> axes<span class="ansi-blue-fg">,</span> e<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1707</span> 
-<span class="ansi-green-intense-fg ansi-bold">   1708</span> 
-
-<span class="ansi-red-fg">ValueError</span>: Shape of passed values is (40, 2), indices imply (0, 2)</pre>
-</div>
 </div>
 
 </div>
