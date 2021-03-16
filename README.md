@@ -1585,4 +1585,17 @@ search_data.iloc[[results.index[0]]]
 
 
 
+Here is our match confidence (Jaccard similarity):
+
+```python
+results['_match'][results.index[0]]
+```
+
+
+
+
+    0.6923076923076923
+
+
+
 **Note:** even though our search was on cryptographically hashed data it was able to match a miskeyed phone number and differing internal primary keys (`acct_num`).
