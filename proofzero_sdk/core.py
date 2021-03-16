@@ -70,14 +70,11 @@ from .util import sha2
 IndexFrame = NewType('IndexFrame', TokenFrame)
 
 def index(
-    df: TokenFrame, schema: dict, hasher: Callable = sha2, suffix_delim: str = ""
+    df: TokenFrame, hasher: Callable = sha2
 ) -> IndexFrame:
     """
-    Tokenizes the passed DataFrame using `tokenize`, then applies a hash function to the tokenized features.
-
-    The default hash function is `sha2`, from the Proof Zero utility SDK.
+    Applies a hash function to the tokenized features and returns an `IndexFrame`. The default hash function is `sha2`, from the Cleanroom utility SDK.
     """
-    #return tokenize(df, schema, suffix_delim).applymap(hasher)
     return df.applymap(hasher)
 
 # Cell
@@ -89,20 +86,20 @@ def match(
     index_0: IndexFrame, index_1: IndexFrame, sensitivity = 0.5, api_key: str = None
 ) -> pd.DataFrame:
     """
-    Discover matches between the two passed DataFrames. If `api_key` is set the indexed data can be matched using Proof Zero's cluster.
+    Discover matches between the two passed DataFrames. If `api_key` is set the indexed data can be matched using the Cleanroom compute cluster.
 
     `index_0` should contain exactly one row. If a whole-frame match is required pass this function to `pandas.DataFrame.apply`.
 
     `sensitivity` is the lowest [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index), as a percentage, that indicates a match.
 
-    This function is compute-intense. Contact us for cloud scaling help.
+    This function is potentially compute-intense. [Contact us](mailto:admin@proofzero.io) for cloud scaling help.
     """
-    column_intersect = list(set(index_0.columns) & set(index_1.columns))
-    column_union = list(set(index_0.columns) | set(index_1.columns))
-    column_jaccard = len(column_intersect) / len(column_union) # Can use the column Jaccard Index to normalize the row Jaccard, below.
-
     if (len(index_0) != 1):
         raise RuntimeError('Pass exactly one index as index_0.')
+
+    column_intersect = list(set(index_0.columns) & set(index_1.columns))
+#     column_union = list(set(index_0.columns) | set(index_1.columns))
+#     column_jaccard = len(column_intersect) / len(column_union) # Can use the column Jaccard Index to normalize the row Jaccard, below.
 
     if (len(column_intersect) < 1):
         raise RuntimeError('No schema overlap -- some columns must match (parsing functions in schema must emit tags that match across both frames).')

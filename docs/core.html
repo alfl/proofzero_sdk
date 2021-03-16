@@ -1,6 +1,6 @@
 ---
 
-title: ProofZero Core SDK
+title: Cleanroom Core SDK
 
 
 keywords: fastai
@@ -39,7 +39,7 @@ nb_path: "core.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Generating matches across datasets is difficult. The same entities are described by different data (for example, one person using different phone numbers, or addresses). Data are often in different formats -- sometimes just a postal code is stored, sometimes a geo-region, sometimes a street address.</p>
 <p>However all of these differences in physical data representation refer to the same logical entities.</p>
-<p>The Proof Zero SDK generates pseudokeys that match entities across data sets containing different physical data representations. These pseudokeys enable a match between incomplete, incorrect, and unclean data sets. The percent strength of these pseudokey-based matches is also indicated.</p>
+<p>The Cleanroom SDK generates pseudokeys that match entities across data sets containing different physical data representations. These pseudokeys enable a match between incomplete, incorrect, and unclean data sets. The percent strength of these pseudokey-based matches is also indicated.</p>
 <p>The SDK also acts as a general-purpose feature hashing engine.</p>
 
 </div>
@@ -72,8 +72,8 @@ nb_path: "core.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>All SDK features run locally, so data remain within control of the user. match optionally allows use of Proof Zero's compute cluster and matching models to generate matches more quickly and with higher accuracy.</p>
-<p>By using IndexFrame objects data remain in the control of the local system, even when using Proof Zero's compute cluster.</p>
+<p>All SDK features run locally, so data remain within control of the user. <a href="/proofzero_sdk/core.html#match"><code>match</code></a> optionally allows use of the Cleanroom compute cluster and matching models to enhance speed and accuracy.</p>
+<p>By using IndexFrame objects data remain in the control of the local system, even when using the Cleanroom compute cluster.</p>
 
 </div>
 </div>
@@ -136,6 +136,12 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-Loading-Testing">Data Loading Testing<a class="anchor-link" href="#Data-Loading-Testing"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -249,6 +255,13 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-Tokenization">Sample Tokenization<a class="anchor-link" href="#Sample-Tokenization"> </a></h3><p>This is an example of running <a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a> on a passed <code>DataFrame</code> to generate a <a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a> (in this case of one record). See <a href="/proofzero_sdk/core.html#match"><code>match</code></a> for a complete workflow.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -308,16 +321,16 @@ nb_path: "core.ipynb"
       <th>name_first</th>
       <th>name_middle</th>
       <th>...</th>
-      <th>phone_10</th>
-      <th>phone_11</th>
+      <th>phone_country_code_source</th>
+      <th>phone_preferred_domestic_carrier</th>
       <th>SIN_0</th>
       <th>SIN_1</th>
       <th>SIN_2</th>
       <th>SIN_3</th>
-      <th>DOB_0</th>
-      <th>DOB_1</th>
-      <th>DOB_2</th>
-      <th>DOB_3</th>
+      <th>DOB_iso_format</th>
+      <th>DOB_year</th>
+      <th>DOB_month</th>
+      <th>DOB_day</th>
     </tr>
   </thead>
   <tbody>
@@ -361,7 +374,8 @@ nb_path: "core.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Indexing-data">Indexing data<a class="anchor-link" href="#Indexing-data"> </a></h2>
+<h2 id="Indexing-data">Indexing data<a class="anchor-link" href="#Indexing-data"> </a></h2><p>Applies the selected hash, potentially adding salt, to the tokenized <code>DataFrame</code> (ie, <a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a>). Returns an <a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>.</p>
+
 </div>
 </div>
 </div>
@@ -376,10 +390,9 @@ nb_path: "core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="index" class="doc_header"><code>index</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L72" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>index</code>(<strong><code>df</code></strong>:<a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a>, <strong><code>schema</code></strong>:<code>dict</code>, <strong><code>hasher</code></strong>:<code>Callable</code>=<em><code>sha2</code></em>, <strong><code>suffix_delim</code></strong>:<code>str</code>=<em><code>''</code></em>)</p>
+<h4 id="index" class="doc_header"><code>index</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L72" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>index</code>(<strong><code>df</code></strong>:<a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a>, <strong><code>hasher</code></strong>:<code>Callable</code>=<em><code>sha2</code></em>)</p>
 </blockquote>
-<p>Tokenizes the passed DataFrame using <a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a>, then applies a hash function to the tokenized features.</p>
-<p>The default hash function is <a href="/proofzero_sdk/util.html#sha2"><code>sha2</code></a>, from the Proof Zero utility SDK.</p>
+<p>Applies a hash function to the tokenized features and returns an <a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>. The default hash function is <a href="/proofzero_sdk/util.html#sha2"><code>sha2</code></a>, from the Cleanroom utility SDK.</p>
 
 </div>
 
@@ -398,6 +411,13 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-Indexing">Sample Indexing<a class="anchor-link" href="#Sample-Indexing"> </a></h3><p>This is an example of running <a href="/proofzero_sdk/core.html#index"><code>index</code></a> on a passed <a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a>, in this case returning a single record. See <a href="/proofzero_sdk/core.html#match"><code>match</code></a> for a complete workflow.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -405,15 +425,8 @@ nb_path: "core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_1</span> <span class="o">=</span> <span class="n">index</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">tokens_1</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
-    <span class="s1">&#39;acct_num&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseString</span><span class="p">],</span>
-    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseName</span><span class="p">],</span>
-    <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseAddress</span><span class="p">],</span>
-    <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parsePhone</span><span class="p">],</span>
-    <span class="s1">&#39;SIN&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseSIN</span><span class="p">],</span>
-    <span class="s1">&#39;DOB&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseDate</span><span class="p">]</span>
-<span class="p">},</span> <span class="n">suffix_delim</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
-<span class="n">index_1</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_1</span> <span class="o">=</span> <span class="n">index</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">tokens_1</span><span class="p">)</span>
+<span class="n">index_1</span>
 </pre></div>
 
     </div>
@@ -456,16 +469,16 @@ nb_path: "core.ipynb"
       <th>name_first</th>
       <th>name_middle</th>
       <th>...</th>
-      <th>phone_10</th>
-      <th>phone_11</th>
+      <th>phone_country_code_source</th>
+      <th>phone_preferred_domestic_carrier</th>
       <th>SIN_0</th>
       <th>SIN_1</th>
       <th>SIN_2</th>
       <th>SIN_3</th>
-      <th>DOB_0</th>
-      <th>DOB_1</th>
-      <th>DOB_2</th>
-      <th>DOB_3</th>
+      <th>DOB_iso_format</th>
+      <th>DOB_year</th>
+      <th>DOB_month</th>
+      <th>DOB_day</th>
     </tr>
   </thead>
   <tbody>
@@ -509,7 +522,10 @@ nb_path: "core.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Matching-data">Matching data<a class="anchor-link" href="#Matching-data"> </a></h2>
+<h2 id="Matching-data">Matching data<a class="anchor-link" href="#Matching-data"> </a></h2><p>Find records within a passed <a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, across all columns, that meet a configurable baseline sensitivity (formally, a Jaccard Index value).</p>
+<p>This function is powerful because it matches hashed value without referencing the underlying data. It is therefore appropriate for privacy-first computation. It uses optional metadata (generated by the parsers in the <a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a> workflow step) to assist matching.</p>
+<p>This function optionally connects to the Cleanroom compute cluster to enhance speed and accuracy of returned matches (contact us for an API key: admin@proofzero.io).</p>
+
 </div>
 </div>
 </div>
@@ -524,12 +540,12 @@ nb_path: "core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="match" class="doc_header"><code>match</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>match</code>(<strong><code>index_0</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>index_1</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>sensitivity</code></strong>=<em><code>0.5</code></em>, <strong><code>api_key</code></strong>:<code>str</code>=<em><code>None</code></em>)</p>
+<h4 id="match" class="doc_header"><code>match</code><a href="https://github.com/alfl/proofzero_sdk/tree/main/proofzero_sdk/core.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>match</code>(<strong><code>index_0</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>index_1</code></strong>:<a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, <strong><code>sensitivity</code></strong>=<em><code>0.5</code></em>, <strong><code>api_key</code></strong>:<code>str</code>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Discover matches between the two passed DataFrames. If <code>api_key</code> is set the indexed data can be matched using Proof Zero's cluster.</p>
+<p>Discover matches between the two passed DataFrames. If <code>api_key</code> is set the indexed data can be matched using the Cleanroom compute cluster.</p>
 <p><code>index_0</code> should contain exactly one row. If a whole-frame match is required pass this function to <code>pandas.DataFrame.apply</code>.</p>
 <p><code>sensitivity</code> is the lowest <a href="https://en.wikipedia.org/wiki/Jaccard_index">Jaccard Index</a>, as a percentage, that indicates a match.</p>
-<p>This function is compute-intense. Contact us for cloud scaling help.</p>
+<p>This function is potentially compute-intense. <a href="mailto:admin@proofzero.io">Contact us</a> for cloud scaling help.</p>
 
 </div>
 
@@ -548,6 +564,20 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-End-to-End-Matching-Workflow">Sample End-to-End Matching Workflow<a class="anchor-link" href="#Sample-End-to-End-Matching-Workflow"> </a></h3><p>This workflow demonstrates end-to-end usage of the Cleanroom SDK. We use the single row we have loaded, tokenized, indexed, and matched, above, and match it against another dataset. <strong>Important note:</strong> these data intentionally contain errors in order to illustrate the algorithm working with broken data.</p>
+<p>We now load a new <code>DataFrame</code> and privately search for that record.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Load-the-search-space">Load the search space<a class="anchor-link" href="#Load-the-search-space"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -556,7 +586,7 @@ nb_path: "core.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_2</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s1">&#39;./data_2.csv&#39;</span><span class="p">)</span>
-<span class="n">data_2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">data_2</span>
 </pre></div>
 
     </div>
@@ -598,6 +628,24 @@ nb_path: "core.ipynb"
   </thead>
   <tbody>
     <tr>
+      <th>0</th>
+      <td>CSHE38391159497596</td>
+      <td>Tammy Grant</td>
+      <td>245 Katherine Via Suite 081, Burtonton, NT E3M4V6</td>
+      <td>232-641-0083</td>
+      <td>184 381 564</td>
+      <td>1944-04-23</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>EKOT22531160348874</td>
+      <td>Cl√©mence Guillaume</td>
+      <td>702, boulevard Jos√©phine Vincent, 25009 Saint...</td>
+      <td>386-006-4400</td>
+      <td>674 134 051</td>
+      <td>1969-02-27</td>
+    </tr>
+    <tr>
       <th>2</th>
       <td>CUVC30129179791293</td>
       <td>Kristin Sanchez MD</td>
@@ -605,6 +653,429 @@ nb_path: "core.ipynb"
       <td>742 598 6794</td>
       <td>203 268 552</td>
       <td>1943/04/15</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>EVTK79966801588380</td>
+      <td>Dr. Megan Gomez</td>
+      <td>887 Williams Road, West Ralphshire, NL Y6M9C4</td>
+      <td>(996) 489-6057</td>
+      <td>071 388 466</td>
+      <td>2011-09-04</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AXMY64726382738404</td>
+      <td>Robert Evans</td>
+      <td>7156 Tracy Points Suite 587, Perezville, AB M7...</td>
+      <td>608 900 6570</td>
+      <td>123 827 644</td>
+      <td>1991-10-29</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>ROZX17924884888416</td>
+      <td>Riley Bell DDS</td>
+      <td>872 Hebert Parks, New Wanda, NT L9A 3X1</td>
+      <td>647 927 4901</td>
+      <td>544 325 061</td>
+      <td>1979-05-10</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>KJSJ20498435130926</td>
+      <td>Donald Sullivan DDS</td>
+      <td>05620 Patton Drives, West Susan, NT J1C8S7</td>
+      <td>868.610.7617</td>
+      <td>335 441 184</td>
+      <td>1979-07-09</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>THXW69049993202165</td>
+      <td>John Bush</td>
+      <td>764 White Springs Apt. 124, Brandonfurt, YT T6...</td>
+      <td>641 411 5627</td>
+      <td>815 346 754</td>
+      <td>1924-01-23</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>IAKB97381626750673</td>
+      <td>Thierry Hebert</td>
+      <td>75, rue Alves, 19169 Moulin</td>
+      <td>1 (671) 051-7137</td>
+      <td>580 532 836</td>
+      <td>1981-02-03</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>BUQQ02115919743234</td>
+      <td>Mrs. Tracey Collins</td>
+      <td>981 Blake Viaduct, Port Courtney, SK A9A 3E7</td>
+      <td>834 463 5846</td>
+      <td>170 346 886</td>
+      <td>1913-07-29</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>YRJM92967997762909</td>
+      <td>Kathy Pena</td>
+      <td>5746 Patrick Brooks Suite 122, North Jamesmout...</td>
+      <td>(352) 654-1827</td>
+      <td>481 186 609</td>
+      <td>1952-06-03</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>FLUV37640522042681</td>
+      <td>Mark Pratt</td>
+      <td>15719 Colton Fort, Petermouth, NL A8H 5X3</td>
+      <td>1-106-835-1688</td>
+      <td>023 855 612</td>
+      <td>1978-08-16</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>HOFK06883906508796</td>
+      <td>Michele Shaw</td>
+      <td>590 Lane Drives, Lake Susan, NL C9V 5X8</td>
+      <td>790-500-3928</td>
+      <td>067 551 838</td>
+      <td>1923-04-14</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>NMZF64679539064366</td>
+      <td>Peter Sanders MD</td>
+      <td>324 Jeffrey Mall, Port Susan, NT R8K 5M4</td>
+      <td>1-570-091-4796</td>
+      <td>103 387 221</td>
+      <td>1982-04-02</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>GQVU66725097219658</td>
+      <td>Teresa Hunt</td>
+      <td>627 Andres Isle, Stephenburgh, NU K9B 7H5</td>
+      <td>129 967 7011</td>
+      <td>384 024 139</td>
+      <td>1940-05-01</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>KMTN84168594866023</td>
+      <td>Juan Norris DDS</td>
+      <td>22139 Pope Oval Apt. 656, Port Kathleenmouth, ...</td>
+      <td>1-921-859-7396</td>
+      <td>473 461 184</td>
+      <td>2010-02-28</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>MMSJ71936412373625</td>
+      <td>de Victor Riviere</td>
+      <td>chemin Guyot, 82268 Lombard</td>
+      <td>1 (722) 081-0754</td>
+      <td>653 401 778</td>
+      <td>1984-05-29</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>OCDS05652606748506</td>
+      <td>Emmanuel Imbert</td>
+      <td>6, chemin de Torres, 37433 Saint Alice</td>
+      <td>+1 (270) 634-2119</td>
+      <td>834 607 186</td>
+      <td>1979-03-31</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>PIDW63588539261506</td>
+      <td>Billy Alvarado</td>
+      <td>4114 Tiffany Springs, East Davidchester, QC V2...</td>
+      <td>(740) 056-0342 x432</td>
+      <td>446 810 566</td>
+      <td>1964-08-31</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>UMNT73570042340207</td>
+      <td>Terri Marshall MD</td>
+      <td>0502 Dustin Avenue, Maryshire, NS R3B7G9</td>
+      <td>(638) 832-4115</td>
+      <td>603 811 449</td>
+      <td>2004-06-14</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>TIMI32332329551274</td>
+      <td>Tiffany Hernandez MD</td>
+      <td>1578 Jasmine Heights Suite 588, Gavinton, AB A...</td>
+      <td>563 162 6738</td>
+      <td>306 117 482</td>
+      <td>1924-12-21</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>IEZQ24289108275633</td>
+      <td>Matthew Li</td>
+      <td>912 Susan Overpass, Lopezbury, NS K5K6P1</td>
+      <td>+1 (764) 751-1850</td>
+      <td>446 617 086</td>
+      <td>1979-11-11</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>UNJZ13472520618264</td>
+      <td>Mrs. Judy Martinez</td>
+      <td>30894 Jackson Forks Apt. 981, Valerieport, QC ...</td>
+      <td>731-883-6980 x479</td>
+      <td>371 140 740</td>
+      <td>1973-03-07</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>PKZK45896945754306</td>
+      <td>Lucas Leroux</td>
+      <td>3, chemin Boulanger, 44343 Launay</td>
+      <td>(707) 726-7227 x239</td>
+      <td>854 350 261</td>
+      <td>1996-12-12</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>UWUX38816100867472</td>
+      <td>Breanna Luna</td>
+      <td>7489 Dean Causeway, Greenfurt, YT Y5X2V7</td>
+      <td>(186) 575 7900</td>
+      <td>741 153 027</td>
+      <td>1958-04-03</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>CKXU56373088007485</td>
+      <td>Larry Kim</td>
+      <td>2095 Miguel Ways Apt. 032, Lake Davidville, NT...</td>
+      <td>985-630-2195 x831</td>
+      <td>340 158 625</td>
+      <td>1970-11-06</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>EKSC55934430452334</td>
+      <td>Nicolas Gomez</td>
+      <td>371, chemin Fran√ßoise Voisin, 45274 Chartiernec</td>
+      <td>(499) 160-7878</td>
+      <td>072 673 858</td>
+      <td>1990-05-11</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>SRJA74265263851656</td>
+      <td>Daniel Love</td>
+      <td>6298 Richard Fields, New Teresafurt, AB H7L 1H5</td>
+      <td>1 (867) 002-9908</td>
+      <td>582 334 025</td>
+      <td>2003-10-13</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>HCLN90685611013592</td>
+      <td>Katrina Vasquez</td>
+      <td>414 Dylan View, East Michelle, YT L7V 1S5</td>
+      <td>(130) 453-6406 x317</td>
+      <td>683 417 406</td>
+      <td>1931-01-04</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>KZGX59057319604736</td>
+      <td>Sandy Miranda</td>
+      <td>367 Emily Common Suite 118, West Nathanburgh, ...</td>
+      <td>818 429 7782</td>
+      <td>540 833 225</td>
+      <td>1997-10-15</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>RRXP20270614309352</td>
+      <td>Joseph Rodriguez</td>
+      <td>5068 Brenda Valley, Edwardton, NS G2S8P2</td>
+      <td>1-614-345-8927</td>
+      <td>641 672 506</td>
+      <td>1924-01-05</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>DUVD03029802387571</td>
+      <td>Gregory Smith II</td>
+      <td>79515 Charles Lakes Suite 121, East Joseph, YT...</td>
+      <td>523-092-5510</td>
+      <td>820 538 619</td>
+      <td>1964-07-18</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>YNLS57944915231817</td>
+      <td>Mary Gilbert</td>
+      <td>27079 Davis Wells Suite 359, East Jeremiah, NL...</td>
+      <td>(470) 504 2123</td>
+      <td>064 351 182</td>
+      <td>1964-02-22</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>DYWU67254688342424</td>
+      <td>Sarah Gallagher MD</td>
+      <td>5461 Mccoy Isle, Port Morgan, NT V8C9J9</td>
+      <td>957-993-1219</td>
+      <td>405 165 382</td>
+      <td>1951-08-20</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>GRDP77216150027325</td>
+      <td>Craig Young</td>
+      <td>646 Wright Summit, Port Scott, NB X4T8P5</td>
+      <td>264.014.7743</td>
+      <td>652 048 562</td>
+      <td>2006-08-07</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>FLKH18840342533749</td>
+      <td>Mr. Dylan Stephens</td>
+      <td>32776 Jose Crest, West Annetteville, NB P5Y 2V7</td>
+      <td>1 (329) 969-0227</td>
+      <td>882 540 339</td>
+      <td>1999-04-01</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>MRZV22524106817161</td>
+      <td>Gabrielle Wagner</td>
+      <td>37, avenue Mallet, 99045 Saint Susannenec</td>
+      <td>114-528-2190</td>
+      <td>526 680 251</td>
+      <td>1927-04-01</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>PYQJ90312039529358</td>
+      <td>Peter Snyder</td>
+      <td>648 Gonzales Inlet, Lake Michelle, MB H2E2R8</td>
+      <td>1-707-497-1271</td>
+      <td>305 473 415</td>
+      <td>1950-12-11</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>QZRL11133191564125</td>
+      <td>Louis Samson</td>
+      <td>555, chemin de Maillet, 50547 Mathieu</td>
+      <td>(870) 711-4543 x497</td>
+      <td>537 416 026</td>
+      <td>1998-08-07</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>MGPN82648915836850</td>
+      <td>Alfred Breton</td>
+      <td>avenue Germain, 81792 Chretien</td>
+      <td>193 379 6240 x909</td>
+      <td>537 611 824</td>
+      <td>1958-02-08</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>YELO14580851372384</td>
+      <td>Dr. Jacqueline Marquez</td>
+      <td>044 David Hills, Danielsmouth, NS K2M 7K7</td>
+      <td>1-776-658-3800</td>
+      <td>271 076 648</td>
+      <td>1949-12-25</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>WIHT98725555422527</td>
+      <td>de Joseph Roux</td>
+      <td>97, avenue Peltier, 28596 Valettenec</td>
+      <td>9003099145</td>
+      <td>076 172 162</td>
+      <td>1991-03-19</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>MIJW49483079523822</td>
+      <td>Dr. Gregory Ward</td>
+      <td>2279 Adam Rue, Jillmouth, ON V2T8P4</td>
+      <td>1 (277) 535-2223</td>
+      <td>271 043 747</td>
+      <td>1912-05-27</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>BNOT71116520175088</td>
+      <td>Mr. Anthony Mcbride</td>
+      <td>8313 Lopez Rapids, Port Hannahfurt, NU N9H 5G5</td>
+      <td>(802) 741-2326</td>
+      <td>450 158 837</td>
+      <td>2005-07-24</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>SDTX69800514597670</td>
+      <td>de la Fran√ßoise Verdier</td>
+      <td>20, rue Marine Royer, 84548 Colasdan</td>
+      <td>483-855-9644 x716</td>
+      <td>245 260 351</td>
+      <td>1930-11-21</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>ZLOO41233275244257</td>
+      <td>Dr. Cheryl Garcia</td>
+      <td>097 Peter Row, Lake Elizabeth, AB B7A8J1</td>
+      <td>352.442.6398</td>
+      <td>582 605 820</td>
+      <td>1931-10-06</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>DHHR14461784889831</td>
+      <td>Bradley Cox</td>
+      <td>70255 Osborne Junction, Francostad, QC G8R9K2</td>
+      <td>(992) 455-7811</td>
+      <td>042 347 765</td>
+      <td>1962-10-10</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>OBTB49652573861835</td>
+      <td>Jennifer Meyer</td>
+      <td>2244 Robinson Wells, Johnsonburgh, SK V5R 7G5</td>
+      <td>1-931-882-7891</td>
+      <td>332 817 048</td>
+      <td>1954-05-16</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>EGOX50212187423516</td>
+      <td>Stacy Tucker</td>
+      <td>8514 Horn Trace Apt. 626, Lake Susanberg, ON M...</td>
+      <td>(174) 939-0907</td>
+      <td>486 706 815</td>
+      <td>1987-03-17</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>FRXI39039577264471</td>
+      <td>Agathe Sauvage</td>
+      <td>74, rue de Parent, 68727 Saint Patricia</td>
+      <td>124 315 6883</td>
+      <td>066 844 556</td>
+      <td>1993-02-19</td>
     </tr>
   </tbody>
 </table>
@@ -619,6 +1090,15 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tokenize-the-search-space">Tokenize the search space<a class="anchor-link" href="#Tokenize-the-search-space"> </a></h3><p>We now decompose the loaded <code>DataFrame</code> we are going to search by passing it and a schema to <a href="/proofzero_sdk/core.html#tokenize"><code>tokenize</code></a>.</p>
+<p>The schema is a <code>dict</code> that maps column names (keys) to <code>list</code>s of functions that will be applied in order to values in the respective column.</p>
+<p>This results in a <a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a> where columns include metadata tags that will support the match.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -634,7 +1114,7 @@ nb_path: "core.ipynb"
     <span class="s1">&#39;SIN&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseSIN</span><span class="p">],</span>
     <span class="s1">&#39;DOB&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseDate</span><span class="p">]</span>
 <span class="p">},</span> <span class="n">suffix_delim</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">tokens_2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">tokens_2</span>
 </pre></div>
 
     </div>
@@ -672,24 +1152,72 @@ nb_path: "core.ipynb"
       <th>phone</th>
       <th>SIN</th>
       <th>DOB</th>
-      <th>DOB_0</th>
-      <th>DOB_1</th>
-      <th>DOB_2</th>
-      <th>DOB_3</th>
+      <th>DOB_day</th>
+      <th>DOB_iso_format</th>
+      <th>DOB_month</th>
+      <th>DOB_year</th>
       <th>...</th>
-      <th>phone_10</th>
-      <th>phone_11</th>
-      <th>phone_2</th>
-      <th>phone_3</th>
-      <th>phone_4</th>
-      <th>phone_5</th>
-      <th>phone_6</th>
-      <th>phone_7</th>
-      <th>phone_8</th>
-      <th>phone_9</th>
+      <th>phone_country_code</th>
+      <th>phone_country_code_source</th>
+      <th>phone_extension</th>
+      <th>phone_full_phone</th>
+      <th>phone_italian_zero</th>
+      <th>phone_leading_zero_count</th>
+      <th>phone_line_number</th>
+      <th>phone_national_number</th>
+      <th>phone_preferred_domestic_carrier</th>
+      <th>phone_raw</th>
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <th>0</th>
+      <td>CSHE38391159497596</td>
+      <td>Tammy Grant</td>
+      <td>245 Katherine Via Suite 081, Burtonton, NT E3M4V6</td>
+      <td>232-641-0083</td>
+      <td>184 381 564</td>
+      <td>1944-04-23</td>
+      <td>23</td>
+      <td>1944-04-23</td>
+      <td>4</td>
+      <td>1944</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-232-641-0083</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0083</td>
+      <td>2326410083</td>
+      <td>None</td>
+      <td>232-641-0083</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>EKOT22531160348874</td>
+      <td>Cl√©mence Guillaume</td>
+      <td>702, boulevard Jos√©phine Vincent, 25009 Saint...</td>
+      <td>386-006-4400</td>
+      <td>674 134 051</td>
+      <td>1969-02-27</td>
+      <td>27</td>
+      <td>1969-02-27</td>
+      <td>2</td>
+      <td>1969</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-386-006-4400</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4400</td>
+      <td>3860064400</td>
+      <td>None</td>
+      <td>386-006-4400</td>
+    </tr>
     <tr>
       <th>2</th>
       <td>CUVC30129179791293</td>
@@ -698,25 +1226,1153 @@ nb_path: "core.ipynb"
       <td>742 598 6794</td>
       <td>203 268 552</td>
       <td>1943/04/15</td>
-      <td>1943-04-15</td>
-      <td>1943</td>
-      <td>4</td>
       <td>15</td>
+      <td>1943-04-15</td>
+      <td>4</td>
+      <td>1943</td>
       <td>...</td>
+      <td>1</td>
       <td>20</td>
       <td>None</td>
-      <td>742</td>
-      <td>598</td>
+      <td>tel:+1-742-598-6794</td>
+      <td>None</td>
+      <td>None</td>
       <td>6794</td>
       <td>7425986794</td>
       <td>None</td>
-      <td>None</td>
-      <td>None</td>
       <td>742 598 6794</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>EVTK79966801588380</td>
+      <td>Dr. Megan Gomez</td>
+      <td>887 Williams Road, West Ralphshire, NL Y6M9C4</td>
+      <td>(996) 489-6057</td>
+      <td>071 388 466</td>
+      <td>2011-09-04</td>
+      <td>4</td>
+      <td>2011-09-04</td>
+      <td>9</td>
+      <td>2011</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-996-489-6057</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6057</td>
+      <td>9964896057</td>
+      <td>None</td>
+      <td>(996) 489-6057</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AXMY64726382738404</td>
+      <td>Robert Evans</td>
+      <td>7156 Tracy Points Suite 587, Perezville, AB M7...</td>
+      <td>608 900 6570</td>
+      <td>123 827 644</td>
+      <td>1991-10-29</td>
+      <td>29</td>
+      <td>1991-10-29</td>
+      <td>10</td>
+      <td>1991</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-608-900-6570</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6570</td>
+      <td>6089006570</td>
+      <td>None</td>
+      <td>608 900 6570</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>ROZX17924884888416</td>
+      <td>Riley Bell DDS</td>
+      <td>872 Hebert Parks, New Wanda, NT L9A 3X1</td>
+      <td>647 927 4901</td>
+      <td>544 325 061</td>
+      <td>1979-05-10</td>
+      <td>10</td>
+      <td>1979-05-10</td>
+      <td>5</td>
+      <td>1979</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-647-927-4901</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4901</td>
+      <td>6479274901</td>
+      <td>None</td>
+      <td>647 927 4901</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>KJSJ20498435130926</td>
+      <td>Donald Sullivan DDS</td>
+      <td>05620 Patton Drives, West Susan, NT J1C8S7</td>
+      <td>868.610.7617</td>
+      <td>335 441 184</td>
+      <td>1979-07-09</td>
+      <td>9</td>
+      <td>1979-07-09</td>
+      <td>7</td>
+      <td>1979</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-868-610-7617</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7617</td>
+      <td>8686107617</td>
+      <td>None</td>
+      <td>868.610.7617</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>THXW69049993202165</td>
+      <td>John Bush</td>
+      <td>764 White Springs Apt. 124, Brandonfurt, YT T6...</td>
+      <td>641 411 5627</td>
+      <td>815 346 754</td>
+      <td>1924-01-23</td>
+      <td>23</td>
+      <td>1924-01-23</td>
+      <td>1</td>
+      <td>1924</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-641-411-5627</td>
+      <td>None</td>
+      <td>None</td>
+      <td>5627</td>
+      <td>6414115627</td>
+      <td>None</td>
+      <td>641 411 5627</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>IAKB97381626750673</td>
+      <td>Thierry Hebert</td>
+      <td>75, rue Alves, 19169 Moulin</td>
+      <td>1 (671) 051-7137</td>
+      <td>580 532 836</td>
+      <td>1981-02-03</td>
+      <td>3</td>
+      <td>1981-02-03</td>
+      <td>2</td>
+      <td>1981</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-671-051-7137</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7137</td>
+      <td>6710517137</td>
+      <td>None</td>
+      <td>1 (671) 051-7137</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>BUQQ02115919743234</td>
+      <td>Mrs. Tracey Collins</td>
+      <td>981 Blake Viaduct, Port Courtney, SK A9A 3E7</td>
+      <td>834 463 5846</td>
+      <td>170 346 886</td>
+      <td>1913-07-29</td>
+      <td>29</td>
+      <td>1913-07-29</td>
+      <td>7</td>
+      <td>1913</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-834-463-5846</td>
+      <td>None</td>
+      <td>None</td>
+      <td>5846</td>
+      <td>8344635846</td>
+      <td>None</td>
+      <td>834 463 5846</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>YRJM92967997762909</td>
+      <td>Kathy Pena</td>
+      <td>5746 Patrick Brooks Suite 122, North Jamesmout...</td>
+      <td>(352) 654-1827</td>
+      <td>481 186 609</td>
+      <td>1952-06-03</td>
+      <td>3</td>
+      <td>1952-06-03</td>
+      <td>6</td>
+      <td>1952</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-352-654-1827</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1827</td>
+      <td>3526541827</td>
+      <td>None</td>
+      <td>(352) 654-1827</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>FLUV37640522042681</td>
+      <td>Mark Pratt</td>
+      <td>15719 Colton Fort, Petermouth, NL A8H 5X3</td>
+      <td>1-106-835-1688</td>
+      <td>023 855 612</td>
+      <td>1978-08-16</td>
+      <td>16</td>
+      <td>1978-08-16</td>
+      <td>8</td>
+      <td>1978</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-068351688</td>
+      <td>True</td>
+      <td>None</td>
+      <td>88</td>
+      <td>68351688</td>
+      <td>None</td>
+      <td>1-106-835-1688</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>HOFK06883906508796</td>
+      <td>Michele Shaw</td>
+      <td>590 Lane Drives, Lake Susan, NL C9V 5X8</td>
+      <td>790-500-3928</td>
+      <td>067 551 838</td>
+      <td>1923-04-14</td>
+      <td>14</td>
+      <td>1923-04-14</td>
+      <td>4</td>
+      <td>1923</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-790-500-3928</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3928</td>
+      <td>7905003928</td>
+      <td>None</td>
+      <td>790-500-3928</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>NMZF64679539064366</td>
+      <td>Peter Sanders MD</td>
+      <td>324 Jeffrey Mall, Port Susan, NT R8K 5M4</td>
+      <td>1-570-091-4796</td>
+      <td>103 387 221</td>
+      <td>1982-04-02</td>
+      <td>2</td>
+      <td>1982-04-02</td>
+      <td>4</td>
+      <td>1982</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-570-091-4796</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4796</td>
+      <td>5700914796</td>
+      <td>None</td>
+      <td>1-570-091-4796</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>GQVU66725097219658</td>
+      <td>Teresa Hunt</td>
+      <td>627 Andres Isle, Stephenburgh, NU K9B 7H5</td>
+      <td>129 967 7011</td>
+      <td>384 024 139</td>
+      <td>1940-05-01</td>
+      <td>1</td>
+      <td>1940-05-01</td>
+      <td>5</td>
+      <td>1940</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-1299677011</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7011</td>
+      <td>1299677011</td>
+      <td>None</td>
+      <td>129 967 7011</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>KMTN84168594866023</td>
+      <td>Juan Norris DDS</td>
+      <td>22139 Pope Oval Apt. 656, Port Kathleenmouth, ...</td>
+      <td>1-921-859-7396</td>
+      <td>473 461 184</td>
+      <td>2010-02-28</td>
+      <td>28</td>
+      <td>2010-02-28</td>
+      <td>2</td>
+      <td>2010</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-921-859-7396</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7396</td>
+      <td>9218597396</td>
+      <td>None</td>
+      <td>1-921-859-7396</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>MMSJ71936412373625</td>
+      <td>de Victor Riviere</td>
+      <td>chemin Guyot, 82268 Lombard</td>
+      <td>1 (722) 081-0754</td>
+      <td>653 401 778</td>
+      <td>1984-05-29</td>
+      <td>29</td>
+      <td>1984-05-29</td>
+      <td>5</td>
+      <td>1984</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-722-081-0754</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0754</td>
+      <td>7220810754</td>
+      <td>None</td>
+      <td>1 (722) 081-0754</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>OCDS05652606748506</td>
+      <td>Emmanuel Imbert</td>
+      <td>6, chemin de Torres, 37433 Saint Alice</td>
+      <td>+1 (270) 634-2119</td>
+      <td>834 607 186</td>
+      <td>1979-03-31</td>
+      <td>31</td>
+      <td>1979-03-31</td>
+      <td>3</td>
+      <td>1979</td>
+      <td>...</td>
+      <td>1</td>
+      <td>1</td>
+      <td>None</td>
+      <td>tel:+1-270-634-2119</td>
+      <td>None</td>
+      <td>None</td>
+      <td>2119</td>
+      <td>2706342119</td>
+      <td>None</td>
+      <td>+1 (270) 634-2119</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>PIDW63588539261506</td>
+      <td>Billy Alvarado</td>
+      <td>4114 Tiffany Springs, East Davidchester, QC V2...</td>
+      <td>(740) 056-0342 x432</td>
+      <td>446 810 566</td>
+      <td>1964-08-31</td>
+      <td>31</td>
+      <td>1964-08-31</td>
+      <td>8</td>
+      <td>1964</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>432</td>
+      <td>tel:+1-740-056-0342;ext=432</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0342</td>
+      <td>7400560342</td>
+      <td>None</td>
+      <td>(740) 056-0342 x432</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>UMNT73570042340207</td>
+      <td>Terri Marshall MD</td>
+      <td>0502 Dustin Avenue, Maryshire, NS R3B7G9</td>
+      <td>(638) 832-4115</td>
+      <td>603 811 449</td>
+      <td>2004-06-14</td>
+      <td>14</td>
+      <td>2004-06-14</td>
+      <td>6</td>
+      <td>2004</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-638-832-4115</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4115</td>
+      <td>6388324115</td>
+      <td>None</td>
+      <td>(638) 832-4115</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>TIMI32332329551274</td>
+      <td>Tiffany Hernandez MD</td>
+      <td>1578 Jasmine Heights Suite 588, Gavinton, AB A...</td>
+      <td>563 162 6738</td>
+      <td>306 117 482</td>
+      <td>1924-12-21</td>
+      <td>21</td>
+      <td>1924-12-21</td>
+      <td>12</td>
+      <td>1924</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-563-162-6738</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6738</td>
+      <td>5631626738</td>
+      <td>None</td>
+      <td>563 162 6738</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>IEZQ24289108275633</td>
+      <td>Matthew Li</td>
+      <td>912 Susan Overpass, Lopezbury, NS K5K6P1</td>
+      <td>+1 (764) 751-1850</td>
+      <td>446 617 086</td>
+      <td>1979-11-11</td>
+      <td>11</td>
+      <td>1979-11-11</td>
+      <td>11</td>
+      <td>1979</td>
+      <td>...</td>
+      <td>1</td>
+      <td>1</td>
+      <td>None</td>
+      <td>tel:+1-764-751-1850</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1850</td>
+      <td>7647511850</td>
+      <td>None</td>
+      <td>+1 (764) 751-1850</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>UNJZ13472520618264</td>
+      <td>Mrs. Judy Martinez</td>
+      <td>30894 Jackson Forks Apt. 981, Valerieport, QC ...</td>
+      <td>731-883-6980 x479</td>
+      <td>371 140 740</td>
+      <td>1973-03-07</td>
+      <td>7</td>
+      <td>1973-03-07</td>
+      <td>3</td>
+      <td>1973</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>479</td>
+      <td>tel:+1-731-883-6980;ext=479</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6980</td>
+      <td>7318836980</td>
+      <td>None</td>
+      <td>731-883-6980 x479</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>PKZK45896945754306</td>
+      <td>Lucas Leroux</td>
+      <td>3, chemin Boulanger, 44343 Launay</td>
+      <td>(707) 726-7227 x239</td>
+      <td>854 350 261</td>
+      <td>1996-12-12</td>
+      <td>12</td>
+      <td>1996-12-12</td>
+      <td>12</td>
+      <td>1996</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>239</td>
+      <td>tel:+1-707-726-7227;ext=239</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7227</td>
+      <td>7077267227</td>
+      <td>None</td>
+      <td>(707) 726-7227 x239</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>UWUX38816100867472</td>
+      <td>Breanna Luna</td>
+      <td>7489 Dean Causeway, Greenfurt, YT Y5X2V7</td>
+      <td>(186) 575 7900</td>
+      <td>741 153 027</td>
+      <td>1958-04-03</td>
+      <td>3</td>
+      <td>1958-04-03</td>
+      <td>4</td>
+      <td>1958</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-1865757900</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7900</td>
+      <td>1865757900</td>
+      <td>None</td>
+      <td>(186) 575 7900</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>CKXU56373088007485</td>
+      <td>Larry Kim</td>
+      <td>2095 Miguel Ways Apt. 032, Lake Davidville, NT...</td>
+      <td>985-630-2195 x831</td>
+      <td>340 158 625</td>
+      <td>1970-11-06</td>
+      <td>6</td>
+      <td>1970-11-06</td>
+      <td>11</td>
+      <td>1970</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>831</td>
+      <td>tel:+1-985-630-2195;ext=831</td>
+      <td>None</td>
+      <td>None</td>
+      <td>2195</td>
+      <td>9856302195</td>
+      <td>None</td>
+      <td>985-630-2195 x831</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>EKSC55934430452334</td>
+      <td>Nicolas Gomez</td>
+      <td>371, chemin Fran√ßoise Voisin, 45274 Chartiernec</td>
+      <td>(499) 160-7878</td>
+      <td>072 673 858</td>
+      <td>1990-05-11</td>
+      <td>11</td>
+      <td>1990-05-11</td>
+      <td>5</td>
+      <td>1990</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-499-160-7878</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7878</td>
+      <td>4991607878</td>
+      <td>None</td>
+      <td>(499) 160-7878</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>SRJA74265263851656</td>
+      <td>Daniel Love</td>
+      <td>6298 Richard Fields, New Teresafurt, AB H7L 1H5</td>
+      <td>1 (867) 002-9908</td>
+      <td>582 334 025</td>
+      <td>2003-10-13</td>
+      <td>13</td>
+      <td>2003-10-13</td>
+      <td>10</td>
+      <td>2003</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-867-002-9908</td>
+      <td>None</td>
+      <td>None</td>
+      <td>9908</td>
+      <td>8670029908</td>
+      <td>None</td>
+      <td>1 (867) 002-9908</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>HCLN90685611013592</td>
+      <td>Katrina Vasquez</td>
+      <td>414 Dylan View, East Michelle, YT L7V 1S5</td>
+      <td>(130) 453-6406 x317</td>
+      <td>683 417 406</td>
+      <td>1931-01-04</td>
+      <td>4</td>
+      <td>1931-01-04</td>
+      <td>1</td>
+      <td>1931</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>317</td>
+      <td>tel:+1-1304536406;ext=317</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6406</td>
+      <td>1304536406</td>
+      <td>None</td>
+      <td>(130) 453-6406 x317</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>KZGX59057319604736</td>
+      <td>Sandy Miranda</td>
+      <td>367 Emily Common Suite 118, West Nathanburgh, ...</td>
+      <td>818 429 7782</td>
+      <td>540 833 225</td>
+      <td>1997-10-15</td>
+      <td>15</td>
+      <td>1997-10-15</td>
+      <td>10</td>
+      <td>1997</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-818-429-7782</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7782</td>
+      <td>8184297782</td>
+      <td>None</td>
+      <td>818 429 7782</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>RRXP20270614309352</td>
+      <td>Joseph Rodriguez</td>
+      <td>5068 Brenda Valley, Edwardton, NS G2S8P2</td>
+      <td>1-614-345-8927</td>
+      <td>641 672 506</td>
+      <td>1924-01-05</td>
+      <td>5</td>
+      <td>1924-01-05</td>
+      <td>1</td>
+      <td>1924</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-614-345-8927</td>
+      <td>None</td>
+      <td>None</td>
+      <td>8927</td>
+      <td>6143458927</td>
+      <td>None</td>
+      <td>1-614-345-8927</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>DUVD03029802387571</td>
+      <td>Gregory Smith II</td>
+      <td>79515 Charles Lakes Suite 121, East Joseph, YT...</td>
+      <td>523-092-5510</td>
+      <td>820 538 619</td>
+      <td>1964-07-18</td>
+      <td>18</td>
+      <td>1964-07-18</td>
+      <td>7</td>
+      <td>1964</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-523-092-5510</td>
+      <td>None</td>
+      <td>None</td>
+      <td>5510</td>
+      <td>5230925510</td>
+      <td>None</td>
+      <td>523-092-5510</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>YNLS57944915231817</td>
+      <td>Mary Gilbert</td>
+      <td>27079 Davis Wells Suite 359, East Jeremiah, NL...</td>
+      <td>(470) 504 2123</td>
+      <td>064 351 182</td>
+      <td>1964-02-22</td>
+      <td>22</td>
+      <td>1964-02-22</td>
+      <td>2</td>
+      <td>1964</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-470-504-2123</td>
+      <td>None</td>
+      <td>None</td>
+      <td>2123</td>
+      <td>4705042123</td>
+      <td>None</td>
+      <td>(470) 504 2123</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>DYWU67254688342424</td>
+      <td>Sarah Gallagher MD</td>
+      <td>5461 Mccoy Isle, Port Morgan, NT V8C9J9</td>
+      <td>957-993-1219</td>
+      <td>405 165 382</td>
+      <td>1951-08-20</td>
+      <td>20</td>
+      <td>1951-08-20</td>
+      <td>8</td>
+      <td>1951</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-957-993-1219</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1219</td>
+      <td>9579931219</td>
+      <td>None</td>
+      <td>957-993-1219</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>GRDP77216150027325</td>
+      <td>Craig Young</td>
+      <td>646 Wright Summit, Port Scott, NB X4T8P5</td>
+      <td>264.014.7743</td>
+      <td>652 048 562</td>
+      <td>2006-08-07</td>
+      <td>7</td>
+      <td>2006-08-07</td>
+      <td>8</td>
+      <td>2006</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-264-014-7743</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7743</td>
+      <td>2640147743</td>
+      <td>None</td>
+      <td>264.014.7743</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>FLKH18840342533749</td>
+      <td>Mr. Dylan Stephens</td>
+      <td>32776 Jose Crest, West Annetteville, NB P5Y 2V7</td>
+      <td>1 (329) 969-0227</td>
+      <td>882 540 339</td>
+      <td>1999-04-01</td>
+      <td>1</td>
+      <td>1999-04-01</td>
+      <td>4</td>
+      <td>1999</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-329-969-0227</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0227</td>
+      <td>3299690227</td>
+      <td>None</td>
+      <td>1 (329) 969-0227</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>MRZV22524106817161</td>
+      <td>Gabrielle Wagner</td>
+      <td>37, avenue Mallet, 99045 Saint Susannenec</td>
+      <td>114-528-2190</td>
+      <td>526 680 251</td>
+      <td>1927-04-01</td>
+      <td>1</td>
+      <td>1927-04-01</td>
+      <td>4</td>
+      <td>1927</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-1145282190</td>
+      <td>None</td>
+      <td>None</td>
+      <td>2190</td>
+      <td>1145282190</td>
+      <td>None</td>
+      <td>114-528-2190</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>PYQJ90312039529358</td>
+      <td>Peter Snyder</td>
+      <td>648 Gonzales Inlet, Lake Michelle, MB H2E2R8</td>
+      <td>1-707-497-1271</td>
+      <td>305 473 415</td>
+      <td>1950-12-11</td>
+      <td>11</td>
+      <td>1950-12-11</td>
+      <td>12</td>
+      <td>1950</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-707-497-1271</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1271</td>
+      <td>7074971271</td>
+      <td>None</td>
+      <td>1-707-497-1271</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>QZRL11133191564125</td>
+      <td>Louis Samson</td>
+      <td>555, chemin de Maillet, 50547 Mathieu</td>
+      <td>(870) 711-4543 x497</td>
+      <td>537 416 026</td>
+      <td>1998-08-07</td>
+      <td>7</td>
+      <td>1998-08-07</td>
+      <td>8</td>
+      <td>1998</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>497</td>
+      <td>tel:+1-870-711-4543;ext=497</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4543</td>
+      <td>8707114543</td>
+      <td>None</td>
+      <td>(870) 711-4543 x497</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>MGPN82648915836850</td>
+      <td>Alfred Breton</td>
+      <td>avenue Germain, 81792 Chretien</td>
+      <td>193 379 6240 x909</td>
+      <td>537 611 824</td>
+      <td>1958-02-08</td>
+      <td>8</td>
+      <td>1958-02-08</td>
+      <td>2</td>
+      <td>1958</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>909</td>
+      <td>tel:+1-1933796240;ext=909</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6240</td>
+      <td>1933796240</td>
+      <td>None</td>
+      <td>193 379 6240 x909</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>YELO14580851372384</td>
+      <td>Dr. Jacqueline Marquez</td>
+      <td>044 David Hills, Danielsmouth, NS K2M 7K7</td>
+      <td>1-776-658-3800</td>
+      <td>271 076 648</td>
+      <td>1949-12-25</td>
+      <td>25</td>
+      <td>1949-12-25</td>
+      <td>12</td>
+      <td>1949</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-776-658-3800</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3800</td>
+      <td>7766583800</td>
+      <td>None</td>
+      <td>1-776-658-3800</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>WIHT98725555422527</td>
+      <td>de Joseph Roux</td>
+      <td>97, avenue Peltier, 28596 Valettenec</td>
+      <td>9003099145</td>
+      <td>076 172 162</td>
+      <td>1991-03-19</td>
+      <td>19</td>
+      <td>1991-03-19</td>
+      <td>3</td>
+      <td>1991</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-900-309-9145</td>
+      <td>None</td>
+      <td>None</td>
+      <td>9145</td>
+      <td>9003099145</td>
+      <td>None</td>
+      <td>9003099145</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>MIJW49483079523822</td>
+      <td>Dr. Gregory Ward</td>
+      <td>2279 Adam Rue, Jillmouth, ON V2T8P4</td>
+      <td>1 (277) 535-2223</td>
+      <td>271 043 747</td>
+      <td>1912-05-27</td>
+      <td>27</td>
+      <td>1912-05-27</td>
+      <td>5</td>
+      <td>1912</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-277-535-2223</td>
+      <td>None</td>
+      <td>None</td>
+      <td>2223</td>
+      <td>2775352223</td>
+      <td>None</td>
+      <td>1 (277) 535-2223</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>BNOT71116520175088</td>
+      <td>Mr. Anthony Mcbride</td>
+      <td>8313 Lopez Rapids, Port Hannahfurt, NU N9H 5G5</td>
+      <td>(802) 741-2326</td>
+      <td>450 158 837</td>
+      <td>2005-07-24</td>
+      <td>24</td>
+      <td>2005-07-24</td>
+      <td>7</td>
+      <td>2005</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-802-741-2326</td>
+      <td>None</td>
+      <td>None</td>
+      <td>2326</td>
+      <td>8027412326</td>
+      <td>None</td>
+      <td>(802) 741-2326</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>SDTX69800514597670</td>
+      <td>de la Fran√ßoise Verdier</td>
+      <td>20, rue Marine Royer, 84548 Colasdan</td>
+      <td>483-855-9644 x716</td>
+      <td>245 260 351</td>
+      <td>1930-11-21</td>
+      <td>21</td>
+      <td>1930-11-21</td>
+      <td>11</td>
+      <td>1930</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>716</td>
+      <td>tel:+1-483-855-9644;ext=716</td>
+      <td>None</td>
+      <td>None</td>
+      <td>9644</td>
+      <td>4838559644</td>
+      <td>None</td>
+      <td>483-855-9644 x716</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>ZLOO41233275244257</td>
+      <td>Dr. Cheryl Garcia</td>
+      <td>097 Peter Row, Lake Elizabeth, AB B7A8J1</td>
+      <td>352.442.6398</td>
+      <td>582 605 820</td>
+      <td>1931-10-06</td>
+      <td>6</td>
+      <td>1931-10-06</td>
+      <td>10</td>
+      <td>1931</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-352-442-6398</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6398</td>
+      <td>3524426398</td>
+      <td>None</td>
+      <td>352.442.6398</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>DHHR14461784889831</td>
+      <td>Bradley Cox</td>
+      <td>70255 Osborne Junction, Francostad, QC G8R9K2</td>
+      <td>(992) 455-7811</td>
+      <td>042 347 765</td>
+      <td>1962-10-10</td>
+      <td>10</td>
+      <td>1962-10-10</td>
+      <td>10</td>
+      <td>1962</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-992-455-7811</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7811</td>
+      <td>9924557811</td>
+      <td>None</td>
+      <td>(992) 455-7811</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>OBTB49652573861835</td>
+      <td>Jennifer Meyer</td>
+      <td>2244 Robinson Wells, Johnsonburgh, SK V5R 7G5</td>
+      <td>1-931-882-7891</td>
+      <td>332 817 048</td>
+      <td>1954-05-16</td>
+      <td>16</td>
+      <td>1954-05-16</td>
+      <td>5</td>
+      <td>1954</td>
+      <td>...</td>
+      <td>1</td>
+      <td>10</td>
+      <td>None</td>
+      <td>tel:+1-931-882-7891</td>
+      <td>None</td>
+      <td>None</td>
+      <td>7891</td>
+      <td>9318827891</td>
+      <td>None</td>
+      <td>1-931-882-7891</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>EGOX50212187423516</td>
+      <td>Stacy Tucker</td>
+      <td>8514 Horn Trace Apt. 626, Lake Susanberg, ON M...</td>
+      <td>(174) 939-0907</td>
+      <td>486 706 815</td>
+      <td>1987-03-17</td>
+      <td>17</td>
+      <td>1987-03-17</td>
+      <td>3</td>
+      <td>1987</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-1749390907</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0907</td>
+      <td>1749390907</td>
+      <td>None</td>
+      <td>(174) 939-0907</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>FRXI39039577264471</td>
+      <td>Agathe Sauvage</td>
+      <td>74, rue de Parent, 68727 Saint Patricia</td>
+      <td>124 315 6883</td>
+      <td>066 844 556</td>
+      <td>1993-02-19</td>
+      <td>19</td>
+      <td>1993-02-19</td>
+      <td>2</td>
+      <td>1993</td>
+      <td>...</td>
+      <td>1</td>
+      <td>20</td>
+      <td>None</td>
+      <td>tel:+1-1243156883</td>
+      <td>None</td>
+      <td>None</td>
+      <td>6883</td>
+      <td>1243156883</td>
+      <td>None</td>
+      <td>124 315 6883</td>
     </tr>
   </tbody>
 </table>
-<p>1 rows × 43 columns</p>
+<p>50 rows × 43 columns</p>
 </div>
 </div>
 
@@ -728,6 +2384,14 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Index-the-search-space">Index the search space<a class="anchor-link" href="#Index-the-search-space"> </a></h3><p>We now hash the <a href="/proofzero_sdk/core.html#TokenFrame"><code>TokenFrame</code></a> to generate an <a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a> using the <a href="/proofzero_sdk/core.html#index"><code>index</code></a> function. This applies a hash function to every value in the frame.</p>
+<p><a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>s encode data and metadata that allow for private comparison of data.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -735,15 +2399,8 @@ nb_path: "core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_2</span> <span class="o">=</span> <span class="n">index</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">tokens_2</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="p">{</span>
-    <span class="s1">&#39;acct_num&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseString</span><span class="p">],</span>
-    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseName</span><span class="p">],</span>
-    <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseAddress</span><span class="p">],</span>
-    <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parsePhone</span><span class="p">],</span>
-    <span class="s1">&#39;SIN&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseSIN</span><span class="p">],</span>
-    <span class="s1">&#39;DOB&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parseDate</span><span class="p">]</span>
-<span class="p">},</span> <span class="n">suffix_delim</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
-<span class="n">index_2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">2</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_2</span> <span class="o">=</span> <span class="n">index</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">tokens_2</span><span class="p">)</span>
+<span class="n">index_2</span>
 </pre></div>
 
     </div>
@@ -781,24 +2438,72 @@ nb_path: "core.ipynb"
       <th>phone</th>
       <th>SIN</th>
       <th>DOB</th>
-      <th>DOB_0</th>
-      <th>DOB_1</th>
-      <th>DOB_2</th>
-      <th>DOB_3</th>
+      <th>DOB_day</th>
+      <th>DOB_iso_format</th>
+      <th>DOB_month</th>
+      <th>DOB_year</th>
       <th>...</th>
-      <th>phone_10</th>
-      <th>phone_11</th>
-      <th>phone_2</th>
-      <th>phone_3</th>
-      <th>phone_4</th>
-      <th>phone_5</th>
-      <th>phone_6</th>
-      <th>phone_7</th>
-      <th>phone_8</th>
-      <th>phone_9</th>
+      <th>phone_country_code</th>
+      <th>phone_country_code_source</th>
+      <th>phone_extension</th>
+      <th>phone_full_phone</th>
+      <th>phone_italian_zero</th>
+      <th>phone_leading_zero_count</th>
+      <th>phone_line_number</th>
+      <th>phone_national_number</th>
+      <th>phone_preferred_domestic_carrier</th>
+      <th>phone_raw</th>
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <th>0</th>
+      <td>9352391750577855971435718263705245987255069699...</td>
+      <td>2286469055134425837256437511113943078399915788...</td>
+      <td>1662836679935136219346165696806043302595180201...</td>
+      <td>6803476586732225874988534598639217266507945391...</td>
+      <td>1105230399750924418265628994290112269218121494...</td>
+      <td>6422048618153117207851186583422705470380740205...</td>
+      <td>6557095579074420993106375022262607033247559721...</td>
+      <td>6422048618153117207851186583422705470380740205...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>3073278372982378113836217057325296307431671824...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1044290470638575181681436323587881468021630185...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2865553556831804391881151340185794355881904637...</td>
+      <td>2871566366896193952836971386518419114925059914...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6803476586732225874988534598639217266507945391...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7648492088929775047729857745339394440483050245...</td>
+      <td>7173845473716532081973976595696249047733478027...</td>
+      <td>6639959451600362907651915301633764411274838796...</td>
+      <td>7679130770068404427594818912209342916763734244...</td>
+      <td>9467357279037345957822471375862774448184139061...</td>
+      <td>1080243633790715765797058260546576300705715625...</td>
+      <td>7954363958932136039762609371070148394491817317...</td>
+      <td>1080243633790715765797058260546576300705715625...</td>
+      <td>2427484933034463179650951670100484315564935015...</td>
+      <td>2463484216937542648069538645574222400470592853...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4757384045636314203805490169031777761441884714...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3281336301241987920828526158359502094875847983...</td>
+      <td>8785399967929720641290699613736549519957908443...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7679130770068404427594818912209342916763734244...</td>
+    </tr>
     <tr>
       <th>2</th>
       <td>3118710362407207060820519817066124611602675044...</td>
@@ -807,25 +2512,1153 @@ nb_path: "core.ipynb"
       <td>5103122257192237244690193744677031637888782293...</td>
       <td>1010505653944236458406177846488691380962181960...</td>
       <td>5141391390246777661242717464678167327763772345...</td>
-      <td>7644637171458321163635300620903733517024394144...</td>
-      <td>1020423811237369131177406386728771151256212182...</td>
-      <td>6275815013823685249316828430045322558920567663...</td>
       <td>9930297093447128312648856684579760333304390435...</td>
+      <td>7644637171458321163635300620903733517024394144...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>1020423811237369131177406386728771151256212182...</td>
       <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
       <td>1950749364813865911797004310287114589195880318...</td>
       <td>6586455234700639270600574409018427069812517107...</td>
-      <td>1535860380141259287318590160938114468677934395...</td>
-      <td>6055181033144981996992600968534808922389255124...</td>
+      <td>7341275782727882540070624817464065162426234694...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
       <td>5598189335674161013176229442725892028281044088...</td>
       <td>2209634314611670011518640833334290179954075682...</td>
       <td>6586455234700639270600574409018427069812517107...</td>
-      <td>6586455234700639270600574409018427069812517107...</td>
-      <td>6586455234700639270600574409018427069812517107...</td>
       <td>5103122257192237244690193744677031637888782293...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9484334146537988355728459332866502132929799924...</td>
+      <td>9318338305054446347926254659255222545484711531...</td>
+      <td>4935503645211391673912889753844162833274778751...</td>
+      <td>6486692424528110891178009898447355217786763806...</td>
+      <td>8204045005077247441814741234893571359393397113...</td>
+      <td>1480736501988108952136288534524016843838889772...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>1480736501988108952136288534524016843838889772...</td>
+      <td>8309389957186075165092560624942708659677963045...</td>
+      <td>8356795650354981540143983036404099727469169323...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6887763359356051501250786368179416002546089276...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1843676371410185153127045889751246799596599688...</td>
+      <td>1360659012191643202926955576358558507267719450...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6486692424528110891178009898447355217786763806...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1071018365514043172837255808126169933999636232...</td>
+      <td>1114326782808393365232341598419425129588183764...</td>
+      <td>1152869418489848773624024499307078600209855856...</td>
+      <td>4132947177542828096187307334685875194356396400...</td>
+      <td>1064920995823064904534557796589321431559378713...</td>
+      <td>9661192392824024868844046871643226699778270959...</td>
+      <td>4015104045131944362036482432099818132485504687...</td>
+      <td>9661192392824024868844046871643226699778270959...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>2806674585915850563367143233752860736861333529...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9112657378520514729919687040798975455706196413...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1604774408038238001616894894981213396335227855...</td>
+      <td>3899256164169218318470815743768918876191092915...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4132947177542828096187307334685875194356396400...</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2496563627104139277169365876460382559038435572...</td>
+      <td>6454403102432039287053110166990066106002084798...</td>
+      <td>3651982899382164801461990073630033283287844954...</td>
+      <td>3463588876646302938116912807130962241816660749...</td>
+      <td>8423106688771213837410693638542511504917139477...</td>
+      <td>9218923082173177104284294915100902987111843609...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>9218923082173177104284294915100902987111843609...</td>
+      <td>7141540202189356383931936714304556824551311787...</td>
+      <td>8890606647136029945955242371960322683693604096...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1908582433149376928682468664470283852831797634...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2538568968468527516589094882186601211166153015...</td>
+      <td>6943853430047425091849724175437711841508113243...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3463588876646302938116912807130962241816660749...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3391740647349871678463249016707737099073381208...</td>
+      <td>6510695797218171340179950464347791190367619038...</td>
+      <td>1356721171139435678139640805919245873905005893...</td>
+      <td>4452033968511225499961759392516478615400951249...</td>
+      <td>1129346035519486222072149185290677775961657288...</td>
+      <td>3204819792041604548297263397723071743723729083...</td>
+      <td>8309389957186075165092560624942708659677963045...</td>
+      <td>3204819792041604548297263397723071743723729083...</td>
+      <td>3670113380018528025358701623221752071603559479...</td>
+      <td>8890606647136029945955242371960322683693604096...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3274476228479190890379417191182101453744803451...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1094476508019270150735424240679754909398049478...</td>
+      <td>7869173949783705573601297745130574015741517693...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4452033968511225499961759392516478615400951249...</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2896386555688245340973815017167035869033084574...</td>
+      <td>3740050141912127749762587322711714228295478755...</td>
+      <td>3313168774184323914800263778513565031691012483...</td>
+      <td>9615368487897068366175598029056652005663279036...</td>
+      <td>4094676365399055458422893148292763515937224229...</td>
+      <td>5935339395422512591922443135064481007877189544...</td>
+      <td>6557095579074420993106375022262607033247559721...</td>
+      <td>5935339395422512591922443135064481007877189544...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1082895589924779261153191963616926382817514424...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8113856301539894102590427744572848805829834382...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2146881114898945340989815055433395842846525431...</td>
+      <td>9068029800339798913586060103079508368927777089...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9615368487897068366175598029056652005663279036...</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5662691832183266586601746727091876475468238588...</td>
+      <td>8793299419530868389766942220344102210611327904...</td>
+      <td>7177501832337986028722142167758486731529362980...</td>
+      <td>6984995904642672233742553695146030160722109026...</td>
+      <td>5840638335963406219321396630626013263555840849...</td>
+      <td>5456143119833488579746085901041402303164055840...</td>
+      <td>9345861891868189917479994948603472140492772331...</td>
+      <td>5456143119833488579746085901041402303164055840...</td>
+      <td>2427484933034463179650951670100484315564935015...</td>
+      <td>3709477872779721260616925464012062405089662830...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2190823024237635695351018496824155996488847686...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3177436389617842158951839862673130634419658207...</td>
+      <td>6539377457810780674641823567689985700724229582...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6984995904642672233742553695146030160722109026...</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1035600337502627784175275552158822330557269199...</td>
+      <td>4735428363639079114833199783652315610058912369...</td>
+      <td>1027512345073784590551214333221150318978954428...</td>
+      <td>4293738925975353113301284603696259532686371483...</td>
+      <td>4747762857438858189525102125328485908535398898...</td>
+      <td>6720182719191230318238434100847481789129316947...</td>
+      <td>4015104045131944362036482432099818132485504687...</td>
+      <td>6720182719191230318238434100847481789129316947...</td>
+      <td>3670113380018528025358701623221752071603559479...</td>
+      <td>3598231929181579401121477957565026611222369701...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1842647058941403076514827134355086252610370362...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4193877429411831103009386854891233981512646764...</td>
+      <td>2793946552859464032316271621194932311142742246...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4293738925975353113301284603696259532686371483...</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>4662461208901828137146263281892759191452378796...</td>
+      <td>6276642978385489566902361120408509896070878568...</td>
+      <td>3928481433381257965978595677219554565962927409...</td>
+      <td>9577622929088481112042680152354307151169864503...</td>
+      <td>4852927922715777936291416730426441493680178735...</td>
+      <td>4085295409349902892278270357806257035173317290...</td>
+      <td>9345861891868189917479994948603472140492772331...</td>
+      <td>4085295409349902892278270357806257035173317290...</td>
+      <td>5951901747200743880560729600914224468867537012...</td>
+      <td>4458649616162214139009751351804145035158520867...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1125743619299953473659673117800098699439251736...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7428922734750239528270022707217322946688933932...</td>
+      <td>7306719290601489373701242956897182831022390757...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9577622929088481112042680152354307151169864503...</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>4623992629160144656730020272834001282044354125...</td>
+      <td>4735889061299867182020827437771813465882696584...</td>
+      <td>5908657652533517905833943975122879612101500630...</td>
+      <td>1082398905315736771820548319970630275761336573...</td>
+      <td>7660430602753578802527266238170775700240500092...</td>
+      <td>5356412859454464837891785221282219099153551227...</td>
+      <td>9840067508747615967064089574072757348210823004...</td>
+      <td>5356412859454464837891785221282219099153551227...</td>
+      <td>7390541736077988278837112449336775694657552143...</td>
+      <td>4342893141224330737446027887171452445312501456...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7265892988299598707752329829066324778471479053...</td>
+      <td>1102430143248412417755019070199177128136484755...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3316594518277277192505311160300972756508328542...</td>
+      <td>4351726592562050325490597688751637760779787564...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1082398905315736771820548319970630275761336573...</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>5083825612241588753543996417054914161800658210...</td>
+      <td>2547643026090791761406742478607831221866306617...</td>
+      <td>1060834194513205021016906037981891760638665446...</td>
+      <td>6667298076423811417766091435072373078770459288...</td>
+      <td>2359805833232069064938610106411557607956339233...</td>
+      <td>8638429367273715600469355759103837637046715247...</td>
+      <td>4415522984215450728370056923707001861557310858...</td>
+      <td>8638429367273715600469355759103837637046715247...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>1102199838788082894371603120180823364496040685...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1145158686430169357760595753623646232908334644...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9346806649809119591284616400630369450304165078...</td>
+      <td>2236042852168791944547227759324834117883384618...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6667298076423811417766091435072373078770459288...</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>8949147714013812800645782586271897047378394637...</td>
+      <td>1313930567137998699556395488990178716538720514...</td>
+      <td>8966437230744534859680604116595486340241455709...</td>
+      <td>5909103129090115836423108419915119846082693792...</td>
+      <td>7154471947853744924794385215635589120690511641...</td>
+      <td>3260431721073643449026212734830373343915435688...</td>
+      <td>2427484933034463179650951670100484315564935015...</td>
+      <td>3260431721073643449026212734830373343915435688...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>2830895001478673387714523141784160510126249519...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5022088046076237582333433439579355700366510251...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4846998203962533123753486638213503164965004563...</td>
+      <td>2440978461227243293204259400603359034151316360...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5909103129090115836423108419915119846082693792...</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>7493227692759300457452377805373516809043946644...</td>
+      <td>4925468862950416873956631729320642264856500837...</td>
+      <td>3078630166605298729816955671953406865625437397...</td>
+      <td>7253545569715433575961523358526239314789619355...</td>
+      <td>1427481922110940469559954830729034768297094702...</td>
+      <td>2959830219781316158641087985845300956411019827...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>2959830219781316158641087985845300956411019827...</td>
+      <td>7141540202189356383931936714304556824551311787...</td>
+      <td>9821690344364410862254334491921624256051247029...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3388594792910321971268373532794910354597598446...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9581080826366314463840078088158200432284001900...</td>
+      <td>4284119845271256769597647904076774718229974619...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7253545569715433575961523358526239314789619355...</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>3965165299256220052538873242880582113970109929...</td>
+      <td>5734853251856581028470562159487267448816740287...</td>
+      <td>5960475723872087852737370750758365739305717543...</td>
+      <td>9644356782707722553742456105623207124185733638...</td>
+      <td>1042549667240370223871029855455008406405169866...</td>
+      <td>1087753691331692106078543244779986983471171680...</td>
+      <td>4071067820220789466434844126987979497219637067...</td>
+      <td>1087753691331692106078543244779986983471171680...</td>
+      <td>2427484933034463179650951670100484315564935015...</td>
+      <td>3845003274852579827265207636654998732448765681...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2980287628791306161763051761359975508199172778...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1108423815539270951975603265541220770283229568...</td>
+      <td>1118560405566496012178793933528221288233806950...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9644356782707722553742456105623207124185733638...</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>5139028551458681266473441662925260284972768906...</td>
+      <td>8638626343802249702486448929115562205786221739...</td>
+      <td>6766130016866875517640253503730704087114041294...</td>
+      <td>9290480982295882299539697690388600384356082942...</td>
+      <td>9301642817865619170438705356244027826849228495...</td>
+      <td>5589163098632048455080211310545063143098556308...</td>
+      <td>4015104045131944362036482432099818132485504687...</td>
+      <td>5589163098632048455080211310545063143098556308...</td>
+      <td>7141540202189356383931936714304556824551311787...</td>
+      <td>5072146900227826698932024920520972635747042016...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1156526329464549349040376879694806898129881381...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1474345694947680222771347098885791425101328102...</td>
+      <td>5057263067931253837265505487728220607674459787...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9290480982295882299539697690388600384356082942...</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1081312339055681260406590224397707390721495143...</td>
+      <td>8752118694474127645709199172864289794650479848...</td>
+      <td>2668369926298897550287908033821804035116277648...</td>
+      <td>6665839767750190868062492458302093204771811780...</td>
+      <td>9228753018161626817445850672922184184205622815...</td>
+      <td>6287719350025537323444456278145338585076699787...</td>
+      <td>7077914330489190927452265355667175645524469985...</td>
+      <td>6287719350025537323444456278145338585076699787...</td>
+      <td>9345861891868189917479994948603472140492772331...</td>
+      <td>8890606647136029945955242371960322683693604096...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1000629865921613315297877422474130056692523632...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1072981778277525776893819552816712441981194183...</td>
+      <td>2893350901073026792432344993391401002939566473...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6665839767750190868062492458302093204771811780...</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>3432543629024863874239169110997886573005561727...</td>
+      <td>8742314635466317255206914476097590848721272501...</td>
+      <td>3213858001559376203978899809946601449146707827...</td>
+      <td>1094049375322620175466063851229736260388382663...</td>
+      <td>5101189263285969086010540734828823889137037453...</td>
+      <td>4731959665418787867548870997658389270847192126...</td>
+      <td>7077914330489190927452265355667175645524469985...</td>
+      <td>4731959665418787867548870997658389270847192126...</td>
+      <td>7390541736077988278837112449336775694657552143...</td>
+      <td>2642153193724177437969436391118259732559574776...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>5989352705414144933636252680917975548794164773...</td>
+      <td>3983507991602667970962715937486490547121507350...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2688659247188295424051563795597514465063724014...</td>
+      <td>2297983510127385057840347870937136611281222851...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1094049375322620175466063851229736260388382663...</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1144090586032614565139628412066196430287010684...</td>
+      <td>5419290190915322625314525388142233750005893164...</td>
+      <td>1110679601876793132606523898763930466519609248...</td>
+      <td>1938057385956617834807191955157061109338859184...</td>
+      <td>1122891910774852812070730553248998263447999846...</td>
+      <td>9840615182827569524053856536761234641493411373...</td>
+      <td>4415522984215450728370056923707001861557310858...</td>
+      <td>9840615182827569524053856536761234641493411373...</td>
+      <td>5951901747200743880560729600914224468867537012...</td>
+      <td>7206102060108122025404435351440782724790253112...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5616780079881727537983446149775592847724415206...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1103162762341708770789822676596094210876074886...</td>
+      <td>5791399275374726508548261175162889284794098174...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1938057385956617834807191955157061109338859184...</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>3961626752333280484305947746720781489041322673...</td>
+      <td>6471293559851896647347450226900673190056360142...</td>
+      <td>1085305362106926779414772557209783288106429501...</td>
+      <td>1083481374651563886643847981234589664540926287...</td>
+      <td>2454500836932711516339482809164606650595438691...</td>
+      <td>9564385574876239303340147751756942567074148230...</td>
+      <td>3073756910343423576256940403067038972294920546...</td>
+      <td>9564385574876239303340147751756942567074148230...</td>
+      <td>1115540080881880230849277803847079631920515142...</td>
+      <td>1082895589924779261153191963616926382817514424...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2051339835055068830172600727588302368512039082...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9895766682012565638508308004649593866702539802...</td>
+      <td>7093484354055945569624774821309295316784512543...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1083481374651563886643847981234589664540926287...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>8137428355090323244183713302703362669130658387...</td>
+      <td>2375919063984202208547884214317830113139349082...</td>
+      <td>9923184114586339094130100910313579571995769819...</td>
+      <td>1043542025475688300280305825502347902632788196...</td>
+      <td>7647038763227997665266092471132376168616514786...</td>
+      <td>4442715444531085847007792161023651400105031338...</td>
+      <td>8364610852149501601713587574079402774166112360...</td>
+      <td>4442715444531085847007792161023651400105031338...</td>
+      <td>8364610852149501601713587574079402774166112360...</td>
+      <td>8890606647136029945955242371960322683693604096...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8064036458801550602174380604319122719454035949...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3664773947643691884444751426462977357542498472...</td>
+      <td>6562753517642240988612664455988563141901027123...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1043542025475688300280305825502347902632788196...</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>8348856537460626792196010557550812426375642294...</td>
+      <td>9624167856719219543003592566957736155328261113...</td>
+      <td>6173358778189353589684982938014612295509332064...</td>
+      <td>4739455608405277072995589081259779008309502621...</td>
+      <td>1839410886302823616609748161176997403063909486...</td>
+      <td>5462676431136306698919887915128840732786492441...</td>
+      <td>3670113380018528025358701623221752071603559479...</td>
+      <td>5462676431136306698919887915128840732786492441...</td>
+      <td>9345861891868189917479994948603472140492772331...</td>
+      <td>2948862871218599978371474382157708100086071376...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>5723189480614017740936417604683214543730081092...</td>
+      <td>3303095418577758204728264169878438080714959287...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6037449960681117724390076989152901716783726709...</td>
+      <td>1092963397930875226742215416884154200094049606...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4739455608405277072995589081259779008309502621...</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>3130622730442417003287459228190215158079218796...</td>
+      <td>3548829999231208048604889369709847879806654583...</td>
+      <td>8753604855016466193042558749756361519077024580...</td>
+      <td>2386524749718582466163146639343790017173273226...</td>
+      <td>9006772656943290899661940947951577835656020650...</td>
+      <td>2663460396741898836940772485615631319565882754...</td>
+      <td>1115540080881880230849277803847079631920515142...</td>
+      <td>2663460396741898836940772485615631319565882754...</td>
+      <td>1115540080881880230849277803847079631920515142...</td>
+      <td>5955766438860851980229620667390022257823635012...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>5587723474872214497508251094097469468895848681...</td>
+      <td>1235174639138610069165183134962067093486830756...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3988219453567290576853498244767261972133815604...</td>
+      <td>8783951627019194012803363992528979633680283315...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2386524749718582466163146639343790017173273226...</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>7819037073627992736100175331721935472725209581...</td>
+      <td>1102724837652781290826402717018565845201255974...</td>
+      <td>4810162817484696428999972919622240144297518698...</td>
+      <td>4507996739297502053742891188708350714187209547...</td>
+      <td>3290318295394115415258307121213380207821152917...</td>
+      <td>6327568326894108495583254783371895816825650279...</td>
+      <td>9345861891868189917479994948603472140492772331...</td>
+      <td>6327568326894108495583254783371895816825650279...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>8249543912100758667471798395057149684575845664...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1129013773790071911499100188178244205660897543...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1117406748531583444851827583155895891850441789...</td>
+      <td>9336147044774714717188228540690666219547442956...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4507996739297502053742891188708350714187209547...</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>1089005905337464348334124565888109460051963034...</td>
+      <td>3075359397216480958586933784484021179115159149...</td>
+      <td>5192939332828263340512583577748444926269978118...</td>
+      <td>1117495039957643436254301972588389233147663481...</td>
+      <td>1077847881452254512910979408957452465440248586...</td>
+      <td>3666633761909109930354864163840666704438042389...</td>
+      <td>5951901747200743880560729600914224468867537012...</td>
+      <td>3666633761909109930354864163840666704438042389...</td>
+      <td>8364610852149501601713587574079402774166112360...</td>
+      <td>1904807146557043403969323726114729241895180673...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>1811097146269512831595372435643947570582370043...</td>
+      <td>5564817472052610285534019715354955740167010025...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8867097039072273684674947117190059577634086321...</td>
+      <td>3090640816817836612386494579531907533969710066...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1117495039957643436254301972588389233147663481...</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>6768876798584866738067767563424874046950220830...</td>
+      <td>4392884764517109056167011544672493900139016412...</td>
+      <td>2982933840238989643196352809398848145181273137...</td>
+      <td>1079830524765276498610365808726877438296063572...</td>
+      <td>2112733680429005767071697379794561911174666022...</td>
+      <td>8779552826841026240639299440971644319250389700...</td>
+      <td>8364610852149501601713587574079402774166112360...</td>
+      <td>8779552826841026240639299440971644319250389700...</td>
+      <td>7141540202189356383931936714304556824551311787...</td>
+      <td>6345257435527309236893381160168194752857576541...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1071232969128241131800207790713659127069875596...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6831596488936321436588899688809493259768935334...</td>
+      <td>8528852587968788068349032619678133761252288688...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1079830524765276498610365808726877438296063572...</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>8643776617468240948921121156390468874847180376...</td>
+      <td>4949249502788115492589620264413541260572957011...</td>
+      <td>7799943064684062536329997801695781032176350580...</td>
+      <td>1534119082523223615698968750490010710019324516...</td>
+      <td>2541401011825759577854340170660849995721526777...</td>
+      <td>1223940032278130578573893233956016444128745072...</td>
+      <td>5467774577762757218374170386953351539799405933...</td>
+      <td>1223940032278130578573893233956016444128745072...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>5711448344086424185866263879997811596378848376...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1562531673388524349976823584732152473660869518...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1708806337252570920492321741055597412138132743...</td>
+      <td>2768589885897314796584704114576319968018533682...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1534119082523223615698968750490010710019324516...</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>4198031857270031481424070280837518611635706124...</td>
+      <td>9876445393619492837561634531250150847177574316...</td>
+      <td>7409798781596733193990623023318189648025828808...</td>
+      <td>9186925787265543458413878291001829706998355151...</td>
+      <td>3480545057614757917154590840335407919035043914...</td>
+      <td>6916110685341119611417804222580278510672122651...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>6916110685341119611417804222580278510672122651...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>4592814208437582335678258988938369249533418619...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>2949713698834070270693005990122616770387826426...</td>
+      <td>9857616742899241691476969578999908169464340059...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1060156148749589971214248151591105515399700013...</td>
+      <td>5681629051254347137074907803358657791453601046...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9186925787265543458413878291001829706998355151...</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>7057292769575579361050821897241918248606011753...</td>
+      <td>5617328753057921737658028497456179958088764425...</td>
+      <td>7924640378432814821929107008537496792425512191...</td>
+      <td>8056021172802262843011021254097992748539323027...</td>
+      <td>5560362402943197755118457963525278312724320540...</td>
+      <td>6620527415006331229996536496131348073731698661...</td>
+      <td>9930297093447128312648856684579760333304390435...</td>
+      <td>6620527415006331229996536496131348073731698661...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6599897967096895158358548374144717673673624601...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1077246510238277462451958566530793134111446230...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1626144164801629588189582668234624653071589971...</td>
+      <td>7731075304118589669482615807785889205915999986...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8056021172802262843011021254097992748539323027...</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>4594025432803778402904321760447940139287795862...</td>
+      <td>1136111327412560555360100544640630329308157164...</td>
+      <td>5152571757230760467894939952958753767300465378...</td>
+      <td>1079497918899189494937674201854940497138849605...</td>
+      <td>8063073866802928512900317487727978433711824201...</td>
+      <td>9265618732608913508225234210407531556259665936...</td>
+      <td>7141540202189356383931936714304556824551311787...</td>
+      <td>9265618732608913508225234210407531556259665936...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1082895589924779261153191963616926382817514424...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4620790216841010720390008079876647155763015770...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8758235887412347009093573062031423132815278118...</td>
+      <td>2883069203144314487655367656504142187826661926...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1079497918899189494937674201854940497138849605...</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>9543893150205678350004910635327265608849896040...</td>
+      <td>7663569175929221324636716881095919582204467062...</td>
+      <td>1788942454302746448477227972597928158292742991...</td>
+      <td>5451375652372148704537442163354580841039963852...</td>
+      <td>2251060966424337886955659378142092990417187334...</td>
+      <td>1290909274468007783506068712595960799983210507...</td>
+      <td>3384218019333690575613138065182318803162587562...</td>
+      <td>1290909274468007783506068712595960799983210507...</td>
+      <td>3670113380018528025358701623221752071603559479...</td>
+      <td>2642153193724177437969436391118259732559574776...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1151129702099907472830223771838645285678517277...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6339799402010687592816017842467771366967136222...</td>
+      <td>9883302517174498036410119360510398349592084914...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5451375652372148704537442163354580841039963852...</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>9009670859629498262822935436726910599828309788...</td>
+      <td>8312334024120264195691342521320368936679217159...</td>
+      <td>6213524551377661937639459382533989665294575006...</td>
+      <td>6467228825422277972671338619946038278424061129...</td>
+      <td>4904768039809015510492465679234813892447830661...</td>
+      <td>9763479579283095934932017786592228490600872128...</td>
+      <td>4461935888407164284432123776049135144288512972...</td>
+      <td>9763479579283095934932017786592228490600872128...</td>
+      <td>2427484933034463179650951670100484315564935015...</td>
+      <td>2642153193724177437969436391118259732559574776...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6974781861875874264147873752152821679824262090...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1473802202050563019389786176331954492874966547...</td>
+      <td>7951355262973016572539234645101740017853064877...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6467228825422277972671338619946038278424061129...</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>6875565331194109649808981654243857335348758528...</td>
+      <td>7283714042041954746132804572170182572475783439...</td>
+      <td>4797809201054243448457822625740215272571438013...</td>
+      <td>6273465691720197679994309451374728517513878612...</td>
+      <td>5854722954109599827865735352450035168066933527...</td>
+      <td>1053930906731929389055036055962771706545943296...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>1053930906731929389055036055962771706545943296...</td>
+      <td>7390541736077988278837112449336775694657552143...</td>
+      <td>8157561570091913466252454637238787110209647427...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8109356036435620282957721132979431525217281529...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8475489969352084766300570899906645318435238000...</td>
+      <td>6912750423861721504753084681960330440107596861...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6273465691720197679994309451374728517513878612...</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>3960400380759495640891638661118860895856727377...</td>
+      <td>7625928547550413592453312973037790114350907047...</td>
+      <td>1891382169271531593187835140678410632040754385...</td>
+      <td>1055500840055617074876957377765187874699834949...</td>
+      <td>7385773773094863960708617394917882175566257799...</td>
+      <td>1021914374557553087983206246769063522320786334...</td>
+      <td>3670113380018528025358701623221752071603559479...</td>
+      <td>1021914374557553087983206246769063522320786334...</td>
+      <td>7390541736077988278837112449336775694657552143...</td>
+      <td>4061327262084801183419533076648467921279407947...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1180207610680408280975940258220958350592364152...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3952490785419291091484892320289302242504643151...</td>
+      <td>1130404852674878948041536082623383783583378068...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1055500840055617074876957377765187874699834949...</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>1522443405030172063833003621862690447511520910...</td>
+      <td>1510764360549103267758070134620527638540320606...</td>
+      <td>1032291683791627335537779811266356817509601779...</td>
+      <td>1142221496686735015740876987085575466380068692...</td>
+      <td>5857799411911002468644558003037190101677920889...</td>
+      <td>3743201676640474796187789696596758503012640993...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>3743201676640474796187789696596758503012640993...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>8170746109861022644513680967690352776868691534...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3326602003511100398995841115268137770285393235...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1413121891302400327783318164790066508156007952...</td>
+      <td>5713873125695594953562533575559997276590948364...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1142221496686735015740876987085575466380068692...</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>3150050992758890652201943816015471213519060002...</td>
+      <td>1056713238736853408113235534930598307680621963...</td>
+      <td>6058238759436392775088602428240579612048753870...</td>
+      <td>4065188908588861061586444462160865322467540711...</td>
+      <td>7380158119638495798475330586400451588470364081...</td>
+      <td>6921824990912896097057661197868147104084313041...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>6921824990912896097057661197868147104084313041...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>8759580535956324837785422821309694754224313756...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6656099113473086158420405027526934146650999101...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4096534725992555803604012466156338832067719771...</td>
+      <td>6941572518163075188260510246058542376239298388...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4065188908588861061586444462160865322467540711...</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>7020032098218613616429113928162398009870333524...</td>
+      <td>1017886478458405161478306845134456179660165141...</td>
+      <td>1157887336304529725293125926447520973839369116...</td>
+      <td>5453118715882760890774484780124771303230067724...</td>
+      <td>8081754543174909622205251675624906160893583024...</td>
+      <td>1131991480886787481381075440920758887037419050...</td>
+      <td>8364610852149501601713587574079402774166112360...</td>
+      <td>1131991480886787481381075440920758887037419050...</td>
+      <td>1115540080881880230849277803847079631920515142...</td>
+      <td>1878842952773957204017773545988838040241816477...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8164801150383761138062711048915124770758936666...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8213602926845036793434330522369923162080416033...</td>
+      <td>6734524814998458276672300874919564113935931253...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5453118715882760890774484780124771303230067724...</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>5965415196500003730770513033812864437259189445...</td>
+      <td>1136325916785211633147623102225880748709701271...</td>
+      <td>4315531677001566504116249214907010119448347616...</td>
+      <td>1093853275700087842370590747832683582344824625...</td>
+      <td>9771704517871163970467187557186198547792899840...</td>
+      <td>6712601117888171542712599607019876191798026845...</td>
+      <td>3670113380018528025358701623221752071603559479...</td>
+      <td>6712601117888171542712599607019876191798026845...</td>
+      <td>7390541736077988278837112449336775694657552143...</td>
+      <td>8939110370407944643299288013594390436960949103...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>5412274324069690161289109560611114984414045818...</td>
+      <td>9498788969605659579088566746543109732951856626...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3006833507589408518166077192377089177878436715...</td>
+      <td>6813524720795409370985496183970665109430941502...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1093853275700087842370590747832683582344824625...</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>2994482519162870786703455686552224828074032233...</td>
+      <td>1087267103886266379411538591654521570786039267...</td>
+      <td>2552481331916420454632232034610387007965042554...</td>
+      <td>5084087482573151524974227267761360364564447105...</td>
+      <td>1112134279073746367726750572960082039000281320...</td>
+      <td>3557594723315656802354513388814871675872398000...</td>
+      <td>7390541736077988278837112449336775694657552143...</td>
+      <td>3557594723315656802354513388814871675872398000...</td>
+      <td>2427484933034463179650951670100484315564935015...</td>
+      <td>8249543912100758667471798395057149684575845664...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>7427616378369529245423435511101125708007209345...</td>
+      <td>7916848572141593396191576343079462413327800999...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6858962996756330243077822047180958276115665772...</td>
+      <td>7055376143259639746450138148551542439171911513...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5084087482573151524974227267761360364564447105...</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>1956007897088425046189046089472253711744815798...</td>
+      <td>4072619067225100732966232633017578561240390185...</td>
+      <td>8152069949967185705752248087015094303350203266...</td>
+      <td>7451893109800754134912978982332980019090766649...</td>
+      <td>1615793939319771307224221315745830142548515463...</td>
+      <td>9881189017061045838762872372127963798459657177...</td>
+      <td>4758809110695034937797041877200892600273892587...</td>
+      <td>9881189017061045838762872372127963798459657177...</td>
+      <td>1115540080881880230849277803847079631920515142...</td>
+      <td>1654561512307901871187248837141474551175093503...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7338831785252457415924640524194152431548930687...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9367687714529763580342176906982882842522615393...</td>
+      <td>1046726484832417806402975605572310261861390417...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7451893109800754134912978982332980019090766649...</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>5922373993770522019069291361713813558016100444...</td>
+      <td>8079868496966047642632068814325482506735796457...</td>
+      <td>1034495871054233428709818288783233772671502887...</td>
+      <td>5409509030028708385415076870286011703095046831...</td>
+      <td>3064922640352848839238435469858471650894723032...</td>
+      <td>1100717395619048509707021636560889202440352017...</td>
+      <td>4702578927928739543514178494949778707929703531...</td>
+      <td>1100717395619048509707021636560889202440352017...</td>
+      <td>9345861891868189917479994948603472140492772331...</td>
+      <td>2806674585915850563367143233752860736861333529...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2247368877589001222571095761649681436168996705...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1061042564677025540316377486812493368585986905...</td>
+      <td>5409509030028708385415076870286011703095046831...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5409509030028708385415076870286011703095046831...</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>3867529767480995544596203866640051462565975784...</td>
+      <td>1052381540213907813183658020643367148415240062...</td>
+      <td>4796327365355740819074515364167617849888180409...</td>
+      <td>7189479440260318077437258586486097529498738190...</td>
+      <td>5675242014499177792891059920363116744195970070...</td>
+      <td>9609352786934050951931722685883222397197755959...</td>
+      <td>7954363958932136039762609371070148394491817317...</td>
+      <td>9609352786934050951931722685883222397197755959...</td>
+      <td>7141540202189356383931936714304556824551311787...</td>
+      <td>8100829792232453093286610948910462028482129465...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1076888532171393930536267659644885866546569715...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9744354784670957447771822287883636717080295557...</td>
+      <td>6059967893794900733748462469764663724709505681...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7189479440260318077437258586486097529498738190...</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>2454880422955013465038602052727444281024924307...</td>
+      <td>7413096884357228823403998310881873863093751716...</td>
+      <td>1442154151978347955459780850758154523449045274...</td>
+      <td>1627898804606926487285843602527819121924008914...</td>
+      <td>7831041589997089068280859104025425537162362926...</td>
+      <td>2867918172096708431209957357196582828017923750...</td>
+      <td>9910126079224675618729705968591077670038384760...</td>
+      <td>2867918172096708431209957357196582828017923750...</td>
+      <td>3670113380018528025358701623221752071603559479...</td>
+      <td>2200729126369900711706061992599119529617854015...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1103581257308688441777962459114522431330781285...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2395863804080601063192752835029749138605570255...</td>
+      <td>1257584073490760738160255246128988933362511290...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1627898804606926487285843602527819121924008914...</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>1412097956681113158119861682805384161486821140...</td>
+      <td>6780481463061383491551916754010578099000313038...</td>
+      <td>3240720083957740031749236976042965691842758703...</td>
+      <td>5735031297891371992919137052176552283995427860...</td>
+      <td>1137513806346276829975475143765795878891118633...</td>
+      <td>9851544910766441842905070801727965198001712879...</td>
+      <td>3073756910343423576256940403067038972294920546...</td>
+      <td>9851544910766441842905070801727965198001712879...</td>
+      <td>8364610852149501601713587574079402774166112360...</td>
+      <td>7006474929001907559399637737190761935399169687...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>4897166531424050487055463535907409515767220975...</td>
+      <td>2593738281351941593475305513657051247330811523...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5470123295609719484921563190814916862165790575...</td>
+      <td>3678971870673797646154015984947691134545892017...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5735031297891371992919137052176552283995427860...</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>2740532908441925800448262723145985260811627412...</td>
+      <td>2551908520322130882733759084975772786369566194...</td>
+      <td>1033275286353125808397755273483962617454351557...</td>
+      <td>1671538294517070744872094564390072704742310869...</td>
+      <td>1876403499913945053951979214126573276512249191...</td>
+      <td>3457316684285006945700832607149732092145554437...</td>
+      <td>5951901747200743880560729600914224468867537012...</td>
+      <td>3457316684285006945700832607149732092145554437...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>4592814208437582335678258988938369249533418619...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8657294778740007372265116031431629956769340289...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2592563512241632040536331557175391423659775745...</td>
+      <td>1032715833141454927366803236623442010677070383...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1671538294517070744872094564390072704742310869...</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>5532462166859955275240686017167983371270221853...</td>
+      <td>3160043309032869825158387382306539915531350898...</td>
+      <td>7894784813419899185443535979161326557176878375...</td>
+      <td>3298586906474972088962536156308631996941865600...</td>
+      <td>4097905983350353363145366235733630656472220054...</td>
+      <td>1079880340896122151572922472249747416491473511...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>1079880340896122151572922472249747416491473511...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>1484413019699946727389007945021914775376884164...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7473100029207463961523986198947742994502774161...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9603471366542533429179029096662212448022047756...</td>
+      <td>9488082177906063748006691997432307034886277106...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3298586906474972088962536156308631996941865600...</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>2023789932479286145784639055771288723870872134...</td>
+      <td>5625191109623075599045187514257913956107336119...</td>
+      <td>1135374566215784905186014535854106464441734661...</td>
+      <td>2145338255240834538968436501119371646233219444...</td>
+      <td>3816184936485577831761777651747095273566658872...</td>
+      <td>7729838848460128280201447098732704936125749490...</td>
+      <td>9840067508747615967064089574072757348210823004...</td>
+      <td>7729838848460128280201447098732704936125749490...</td>
+      <td>7141540202189356383931936714304556824551311787...</td>
+      <td>4768570551026930554252956231352010359966323940...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1128495431291742315677394531938220385730239065...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6136426149437830966157085622781640277815688223...</td>
+      <td>5397624291270995948038876714820182961898089667...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>2145338255240834538968436501119371646233219444...</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>1645094025737050615090329946541507456834209688...</td>
+      <td>9637007010086691847960321312967166871165611523...</td>
+      <td>6581539929187186028575914909687707640091305362...</td>
+      <td>3919012991834484027633440054187350321380783524...</td>
+      <td>7992457942812940934785544917041874187122691070...</td>
+      <td>7357393365838105360396348354687111476954125663...</td>
+      <td>1030034723319536529409730033733933091002392128...</td>
+      <td>7357393365838105360396348354687111476954125663...</td>
+      <td>9345861891868189917479994948603472140492772331...</td>
+      <td>8365117400717761726430844358622832297181422801...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8480961338030702474666709166748704970958863854...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8232654475917288830655948878397430007121179576...</td>
+      <td>1470159552710494422123596947046338550283392847...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3919012991834484027633440054187350321380783524...</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>1043374672172638902457614238259703801657598720...</td>
+      <td>7381525595468066358731700042720477764532047216...</td>
+      <td>8421946429647378930064156763948244877398248643...</td>
+      <td>9980351140072900502157916962979392140764052424...</td>
+      <td>7131346839044132221036611103895334950411304155...</td>
+      <td>4049738287278776531247984601563287585104772754...</td>
+      <td>4702578927928739543514178494949778707929703531...</td>
+      <td>4049738287278776531247984601563287585104772754...</td>
+      <td>2427484933034463179650951670100484315564935015...</td>
+      <td>1094744820897955976582977142337257800488788534...</td>
+      <td>...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1951938968354902671801302781075180176840701412...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>8361160482922846219996030286680664219980890916...</td>
+      <td>1753310224725785902008690456262583298762430077...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>9980351140072900502157916962979392140764052424...</td>
     </tr>
   </tbody>
 </table>
-<p>1 rows × 43 columns</p>
+<p>50 rows × 43 columns</p>
 </div>
 </div>
 
@@ -837,6 +3670,13 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Private-Searching-With-match">Private Searching With <a href="/proofzero_sdk/core.html#match"><code>match</code></a><a class="anchor-link" href="#Private-Searching-With-match"> </a></h3><p>We are now able to compare <code>index_1</code>, a single-record <a href="/proofzero_sdk/core.html#IndexFrame"><code>IndexFrame</code></a>, with <code>index_2</code>, the encrypted search space we have created as part of this end-to-end example workflow.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -844,8 +3684,8 @@ nb_path: "core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">match_frame</span> <span class="o">=</span> <span class="n">match</span><span class="p">(</span><span class="n">index_1</span><span class="p">,</span> <span class="n">index_2</span><span class="p">)</span>
-<span class="n">match_frame</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tight_match</span> <span class="o">=</span> <span class="n">match</span><span class="p">(</span><span class="n">index_1</span><span class="p">,</span> <span class="n">index_2</span><span class="p">)</span>
+<span class="n">tight_match</span>
 </pre></div>
 
     </div>
@@ -883,20 +3723,20 @@ nb_path: "core.ipynb"
       <th>phone</th>
       <th>SIN</th>
       <th>DOB</th>
-      <th>DOB_0</th>
-      <th>DOB_1</th>
-      <th>DOB_2</th>
-      <th>DOB_3</th>
+      <th>DOB_day</th>
+      <th>DOB_iso_format</th>
+      <th>DOB_month</th>
+      <th>DOB_year</th>
       <th>...</th>
-      <th>phone_0</th>
-      <th>phone_10</th>
-      <th>phone_2</th>
-      <th>phone_3</th>
-      <th>phone_4</th>
-      <th>phone_5</th>
-      <th>phone_6</th>
-      <th>phone_7</th>
-      <th>phone_9</th>
+      <th>phone_area_code</th>
+      <th>phone_central_office</th>
+      <th>phone_country_code_source</th>
+      <th>phone_extension</th>
+      <th>phone_full_phone</th>
+      <th>phone_italian_zero</th>
+      <th>phone_line_number</th>
+      <th>phone_national_number</th>
+      <th>phone_raw</th>
       <th>_match</th>
     </tr>
   </thead>
@@ -909,19 +3749,19 @@ nb_path: "core.ipynb"
       <td>5103122257192237244690193744677031637888782293...</td>
       <td>1010505653944236458406177846488691380962181960...</td>
       <td>5141391390246777661242717464678167327763772345...</td>
-      <td>7644637171458321163635300620903733517024394144...</td>
-      <td>1020423811237369131177406386728771151256212182...</td>
-      <td>6275815013823685249316828430045322558920567663...</td>
       <td>9930297093447128312648856684579760333304390435...</td>
+      <td>7644637171458321163635300620903733517024394144...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>1020423811237369131177406386728771151256212182...</td>
       <td>...</td>
-      <td>7341275782727882540070624817464065162426234694...</td>
-      <td>1950749364813865911797004310287114589195880318...</td>
       <td>1535860380141259287318590160938114468677934395...</td>
       <td>6055181033144981996992600968534808922389255124...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7341275782727882540070624817464065162426234694...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
       <td>5598189335674161013176229442725892028281044088...</td>
       <td>2209634314611670011518640833334290179954075682...</td>
-      <td>6586455234700639270600574409018427069812517107...</td>
-      <td>6586455234700639270600574409018427069812517107...</td>
       <td>5103122257192237244690193744677031637888782293...</td>
       <td>0.692308</td>
     </tr>
@@ -939,6 +3779,195 @@ nb_path: "core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This <code>tight_match</code> result indicates that we have found an approximate 69% match in row <code>2</code>. <strong>This is because the data we have been using contain data quality issues. The algorithm is designed to work with, and report on, broken data.</strong></p>
+<p>We now conduct a wider match, at 8% sensitivity, to illustrate fuzzy matching.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wide_match</span> <span class="o">=</span> <span class="n">match</span><span class="p">(</span><span class="n">index_1</span><span class="p">,</span> <span class="n">index_2</span><span class="p">,</span> <span class="n">sensitivity</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+<span class="n">wide_match</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>acct_num</th>
+      <th>name</th>
+      <th>address</th>
+      <th>phone</th>
+      <th>SIN</th>
+      <th>DOB</th>
+      <th>DOB_day</th>
+      <th>DOB_iso_format</th>
+      <th>DOB_month</th>
+      <th>DOB_year</th>
+      <th>...</th>
+      <th>phone_area_code</th>
+      <th>phone_central_office</th>
+      <th>phone_country_code_source</th>
+      <th>phone_extension</th>
+      <th>phone_full_phone</th>
+      <th>phone_italian_zero</th>
+      <th>phone_line_number</th>
+      <th>phone_national_number</th>
+      <th>phone_raw</th>
+      <th>_match</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>3118710362407207060820519817066124611602675044...</td>
+      <td>4418369248196592421047499630841732388346555327...</td>
+      <td>9594784023836219556184433361991357495783756657...</td>
+      <td>5103122257192237244690193744677031637888782293...</td>
+      <td>1010505653944236458406177846488691380962181960...</td>
+      <td>5141391390246777661242717464678167327763772345...</td>
+      <td>9930297093447128312648856684579760333304390435...</td>
+      <td>7644637171458321163635300620903733517024394144...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>1020423811237369131177406386728771151256212182...</td>
+      <td>...</td>
+      <td>1535860380141259287318590160938114468677934395...</td>
+      <td>6055181033144981996992600968534808922389255124...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>7341275782727882540070624817464065162426234694...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5598189335674161013176229442725892028281044088...</td>
+      <td>2209634314611670011518640833334290179954075682...</td>
+      <td>5103122257192237244690193744677031637888782293...</td>
+      <td>0.692308</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>7057292769575579361050821897241918248606011753...</td>
+      <td>5617328753057921737658028497456179958088764425...</td>
+      <td>7924640378432814821929107008537496792425512191...</td>
+      <td>8056021172802262843011021254097992748539323027...</td>
+      <td>5560362402943197755118457963525278312724320540...</td>
+      <td>6620527415006331229996536496131348073731698661...</td>
+      <td>9930297093447128312648856684579760333304390435...</td>
+      <td>6620527415006331229996536496131348073731698661...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6599897967096895158358548374144717673673624601...</td>
+      <td>...</td>
+      <td>9849018411840847459262668700455075173693650456...</td>
+      <td>2678058268810809356502314573059130680737698216...</td>
+      <td>1950749364813865911797004310287114589195880318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1077246510238277462451958566530793134111446230...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1626144164801629588189582668234624653071589971...</td>
+      <td>7731075304118589669482615807785889205915999986...</td>
+      <td>8056021172802262843011021254097992748539323027...</td>
+      <td>0.081967</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>1522443405030172063833003621862690447511520910...</td>
+      <td>1510764360549103267758070134620527638540320606...</td>
+      <td>1032291683791627335537779811266356817509601779...</td>
+      <td>1142221496686735015740876987085575466380068692...</td>
+      <td>5857799411911002468644558003037190101677920889...</td>
+      <td>3743201676640474796187789696596758503012640993...</td>
+      <td>3408518341937466763398361241378156279395974866...</td>
+      <td>3743201676640474796187789696596758503012640993...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>8170746109861022644513680967690352776868691534...</td>
+      <td>...</td>
+      <td>2320325385253540053731626185167439000920282668...</td>
+      <td>7101302949556099159753348202150164381759588516...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>3326602003511100398995841115268137770285393235...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>1413121891302400327783318164790066508156007952...</td>
+      <td>5713873125695594953562533575559997276590948364...</td>
+      <td>1142221496686735015740876987085575466380068692...</td>
+      <td>0.081967</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>8949147714013812800645782586271897047378394637...</td>
+      <td>1313930567137998699556395488990178716538720514...</td>
+      <td>8966437230744534859680604116595486340241455709...</td>
+      <td>5909103129090115836423108419915119846082693792...</td>
+      <td>7154471947853744924794385215635589120690511641...</td>
+      <td>3260431721073643449026212734830373343915435688...</td>
+      <td>2427484933034463179650951670100484315564935015...</td>
+      <td>3260431721073643449026212734830373343915435688...</td>
+      <td>6275815013823685249316828430045322558920567663...</td>
+      <td>2830895001478673387714523141784160510126249519...</td>
+      <td>...</td>
+      <td>9220158232455259385532883106212347638569721719...</td>
+      <td>2205842866729370346316112159386094892855153174...</td>
+      <td>9639508933775287426333904353415401342534309318...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>5022088046076237582333433439579355700366510251...</td>
+      <td>6586455234700639270600574409018427069812517107...</td>
+      <td>4846998203962533123753486638213503164965004563...</td>
+      <td>2440978461227243293204259400603359034151316360...</td>
+      <td>5909103129090115836423108419915119846082693792...</td>
+      <td>0.081967</td>
+    </tr>
+  </tbody>
+</table>
+<p>4 rows × 39 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Fuzzy matching allows for the private generation of "lookalike" marketing sets across data silos, for example.</p>
+
+</div>
+</div>
+</div>
 </div>
  
 

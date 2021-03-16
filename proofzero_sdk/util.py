@@ -104,18 +104,18 @@ def parsePhone(value: str) -> List[Tuple[Union[str, int, None], int]]:
     line_number = national_number[6:]
 
     retval = [
-        (str(phone_parsed), 0),
-        (str(phone_obj.country_code), 1),
-        (str(area_code), 2),
-        (str(central_office), 3),
-        (str(line_number), 4),
-        (str(phone_obj.national_number), 5),
-        (str(phone_obj.extension), 6),
-        (str(phone_obj.italian_leading_zero), 7),
-        (str(phone_obj.number_of_leading_zeros), 8),
-        (str(phone_obj.raw_input), 9),
-        (str(phone_obj.country_code_source), 10),
-        (str(phone_obj.preferred_domestic_carrier_code), 11),
+        (str(phone_parsed), 'full_phone'),
+        (str(phone_obj.country_code), 'country_code'),
+        (str(area_code), 'area_code'),
+        (str(central_office), 'central_office'),
+        (str(line_number), 'line_number'),
+        (str(phone_obj.national_number), 'national_number'),
+        (str(phone_obj.extension), 'extension'),
+        (str(phone_obj.italian_leading_zero), 'italian_zero'),
+        (str(phone_obj.number_of_leading_zeros), 'leading_zero_count'),
+        (str(phone_obj.raw_input), 'raw'),
+        (str(phone_obj.country_code_source), 'country_code_source'),
+        (str(phone_obj.preferred_domestic_carrier_code), 'preferred_domestic_carrier'),
     ]
 
     return retval
@@ -147,10 +147,10 @@ def parseDate(value: str) -> List[Tuple[Union[str, int, None], int]]:
     # Get a datetime from the passed value.
     parse_val: Optional[datetime] = dateparser.parse(value)
     if parse_val is None:
-        return [(None, 0)]
+        return [(None, None)]
     return [
-        (parse_val.date().isoformat(), 0),
-        (str(parse_val.year), 1),
-        (str(parse_val.month), 2),
-        (str(parse_val.day), 3),
+        (parse_val.date().isoformat(), 'iso_format'),
+        (str(parse_val.year), 'year'),
+        (str(parse_val.month), 'month'),
+        (str(parse_val.day), 'day'),
     ]

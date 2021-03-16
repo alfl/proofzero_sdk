@@ -1,6 +1,6 @@
 ---
 
-title: ProofZero Utility SDK
+title: Cleanroom Utility SDK
 
 
 keywords: fastai
@@ -44,7 +44,15 @@ nb_path: "util.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Hash-functions">Hash functions<a class="anchor-link" href="#Hash-functions"> </a></h2>
+<h2 id="Hash-functions">Hash functions<a class="anchor-link" href="#Hash-functions"> </a></h2><p>This section contains feature hashing functions for consistently turning categorical data into (typically numeric) hashes. This is done to aid comparison of, and sharing of, data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="No-op">No-op<a class="anchor-link" href="#No-op"> </a></h3><p>The no-op hash function does not hash passed values. It is primarily included for testing and illustration purposes.</p>
+
 </div>
 </div>
 </div>
@@ -80,6 +88,12 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="No-op-Testing">No-op Testing<a class="anchor-link" href="#No-op-Testing"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -98,6 +112,13 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SHA-256">SHA-256<a class="anchor-link" href="#SHA-256"> </a></h3><p>A secure feature hashing function appropriate for networked use cases.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -130,6 +151,12 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SHA256-Testing">SHA256 Testing<a class="anchor-link" href="#SHA256-Testing"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -150,7 +177,17 @@ nb_path: "util.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Parsing-functions">Parsing functions<a class="anchor-link" href="#Parsing-functions"> </a></h2>
+<h2 id="Parsing-functions">Parsing functions<a class="anchor-link" href="#Parsing-functions"> </a></h2><p>This section contains utility functions for decomposing passed values into structured, tagged, lists of the factors that comprise the passed value.</p>
+<p>Parsing function either pass back a <code>list</code> of values or of <code>tuple</code>s. If they return a <code>tuple</code> it should be of the form: <code>(value, tag)</code> where <code>value</code> is a decomposed factor and <code>tag</code> is metadata describing <code>value</code>. Tags are used to assist matching.</p>
+<p>For example, the phone number (647) 927-4901 might be parsed into the list of tuples: <code>[(647, 'area_code'), (927, 'central_office'), (4901, 'line_number')]</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="String-Parsing">String Parsing<a class="anchor-link" href="#String-Parsing"> </a></h3><p>This is a general purpose string parser.</p>
+
 </div>
 </div>
 </div>
@@ -186,6 +223,12 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="String-Parser-Testing">String Parser Testing<a class="anchor-link" href="#String-Parser-Testing"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -240,6 +283,13 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Name-Parser">Name Parser<a class="anchor-link" href="#Name-Parser"> </a></h3><p>This is an opinionated parser for human names.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -272,6 +322,12 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Name-Parser-Testing.">Name Parser Testing.<a class="anchor-link" href="#Name-Parser-Testing."> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -280,36 +336,23 @@ nb_path: "util.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_name</span> <span class="o">=</span> <span class="n">parseName</span><span class="p">(</span><span class="s1">&#39;Mr. Alex &quot;Al&quot; R. Flanagan I&#39;</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">test_name</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Mr.&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="s1">&#39;Alex&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;middle&#39;</span><span class="p">,</span> <span class="s1">&#39;R.&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;last&#39;</span><span class="p">,</span> <span class="s1">&#39;Flanagan&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;suffix&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nickname&#39;</span><span class="p">,</span> <span class="s1">&#39;Al&#39;</span><span class="p">)])</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_name</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;Mr.&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Alex&#39;</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;R.&#39;</span><span class="p">,</span> <span class="s1">&#39;middle&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Flanagan&#39;</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;suffix&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Al&#39;</span><span class="p">,</span> <span class="s1">&#39;nickname&#39;</span><span class="p">)])</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-13-b0475f947a01&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> test_name <span class="ansi-blue-fg">=</span> parseName<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;Mr. Alex &#34;Al&#34; R. Flanagan I&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">assert</span><span class="ansi-blue-fg">(</span>test_name <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;title&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;Mr.&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;first&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;Alex&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;middle&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;R.&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;last&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;Flanagan&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;suffix&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;I&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;nickname&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;Al&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">AssertionError</span>: </pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Address-Parser">Address Parser<a class="anchor-link" href="#Address-Parser"> </a></h3><p>A tokenizing parser for street addresses. For illustration purposes this is a convenience wrapper around the string parser.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -342,6 +385,12 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Address-Parser-Testing">Address Parser Testing<a class="anchor-link" href="#Address-Parser-Testing"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -360,6 +409,13 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Phone-Number-Parser">Phone Number Parser<a class="anchor-link" href="#Phone-Number-Parser"> </a></h3><p>This is a convenience wrapper around the Python version of Google's <code>libphonenum</code>. This is a general pattern: where available, use a standard or defacto standard parser.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -392,6 +448,12 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Phone-Number-Parser-Testing">Phone Number Parser Testing<a class="anchor-link" href="#Phone-Number-Parser-Testing"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -400,7 +462,7 @@ nb_path: "util.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_phone</span> <span class="o">=</span> <span class="n">parsePhone</span><span class="p">(</span><span class="s1">&#39;647-927-7392&#39;</span><span class="p">)</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">test_phone</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;tel:+1-647-927-7392&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;647&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;927&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;7392&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;6479277392&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;647-927-7392&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;20&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">)])</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">test_phone</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;tel:+1-647-927-7392&#39;</span><span class="p">,</span> <span class="s1">&#39;full_phone&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;country_code&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;647&#39;</span><span class="p">,</span> <span class="s1">&#39;area_code&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;927&#39;</span><span class="p">,</span> <span class="s1">&#39;central_office&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;7392&#39;</span><span class="p">,</span> <span class="s1">&#39;line_number&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;6479277392&#39;</span><span class="p">,</span> <span class="s1">&#39;national_number&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="s1">&#39;extension&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="s1">&#39;italian_zero&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="s1">&#39;leading_zero_count&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;647-927-7392&#39;</span><span class="p">,</span> <span class="s1">&#39;raw&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;20&#39;</span><span class="p">,</span> <span class="s1">&#39;country_code_source&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="s1">&#39;preferred_domestic_carrier&#39;</span><span class="p">)])</span>
 </pre></div>
 
     </div>
@@ -410,6 +472,13 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SIN-Number-Parser">SIN Number Parser<a class="anchor-link" href="#SIN-Number-Parser"> </a></h3><p>A validating parser for Canadian Social Insurance Numbers (SINs).</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -442,6 +511,12 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SIN-Number-Parser-Validation">SIN Number Parser Validation<a class="anchor-link" href="#SIN-Number-Parser-Validation"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -460,6 +535,13 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Date-Parser">Date Parser<a class="anchor-link" href="#Date-Parser"> </a></h3><p>Standard date parser.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -492,6 +574,12 @@ nb_path: "util.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Date-Parser-Testing">Date Parser Testing<a class="anchor-link" href="#Date-Parser-Testing"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -500,7 +588,7 @@ nb_path: "util.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_date</span> <span class="o">=</span> <span class="n">parseDate</span><span class="p">(</span><span class="s1">&#39;1999-07-01&#39;</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">test_date</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;1999-07-01&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1999&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">test_date</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;1999-07-01&#39;</span><span class="p">,</span> <span class="s1">&#39;iso_format&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1999&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">)])</span>
 </pre></div>
 
     </div>
